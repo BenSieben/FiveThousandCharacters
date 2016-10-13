@@ -1,9 +1,35 @@
-/**
+/***
 General stylesheet for all
 web pages in the website
 */
 
-/* div is centered and has up to 50% width */
+/*
+all body elements have centered text in sans-serif font
+*/
+body {
+    text-align: center;
+    font-family: sans-serif;
+    background:#99D9EA; /* light blue background */
+    color: #A349A4; /* purple text */
+}
+
+/*
+anchors have new color scheme to match rest of the website
+*/
+a {
+    color: #660066; /* dark purple text */
+}
+
+/*
+anchors get their background "highlighted" yellow when hovered over
+*/
+a:hover {
+    background: yellow;
+}
+
+/*
+div is centered and has up to 50% width with centered text
+*/
 div {
     margin: auto;
     width: 50%;

@@ -17,6 +17,7 @@ namespace cs174\hw3\views;
     <h1><a href="Landing.php">Five Thousand Characters</a> - Story Title</h1>
     <div>
         Author: author goes here
+        <br />
         First published: date of when story was first saved
     </div>
 </body>
