@@ -11,6 +11,7 @@ namespace cs174\hw3\views;
     <title>Five Thousand Characters</title>
     <meta charset="utf-8" />
     <link rel="icon" href="../resources/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../styles/stylesheet.css" />
 </head>
 <body>
     <h1>Five Thousand Characters</h1>
@@ -25,7 +26,7 @@ namespace cs174\hw3\views;
     <form name="form" method="get">
         <input type="text" name="textField" placeholder="Phrase Filter"/>
         <select name="genre" title="Genre Filter Selection">
-            <option>All Genres</option>
+            <option value="all">All Genres</option>
             <option>List of all unique DB Genres go below</option>
         </select>
         <input type="submit" value="Go" />

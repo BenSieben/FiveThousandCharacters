@@ -1,0 +1,10 @@
+/**
+General stylesheet for all
+web pages in the website
+*/
+
+/* div is centered and has up to 50% width */
+div {
+    margin: auto;
+    width: 50%;
+}
