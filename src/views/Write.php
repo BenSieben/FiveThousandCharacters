@@ -15,12 +15,11 @@ class Write extends View {
 <head>
     <title>Five Thousand Characters - Write Something</title>
     <meta charset="utf-8" />
-    <link rel="icon" href="../resources/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/stylesheet.css" />
+    <link rel="icon" href="src/resources/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="Landing.php">Five Thousand Characters</a> - Write Something</h1>
-
+    <h1><a href="?mode=1">Five Thousand Characters</a> - Write Something</h1>
 </body>
 </html>
 <?php

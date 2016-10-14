@@ -15,11 +15,11 @@ class Read extends View {
 <head>
     <title>Five Thousand Characters - Story Title</title>
     <meta charset="utf-8" />
-    <link rel="icon" href="../resources/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/stylesheet.css" />
+    <link rel="icon" href="src/resources/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="Landing.php">Five Thousand Characters</a> - Story Title</h1>
+    <h1><a href="?mode=1">Five Thousand Characters</a> - Story Title</h1>
     <div>
         <b>Author</b>: author goes here
         <br />

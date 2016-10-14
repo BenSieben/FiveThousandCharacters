@@ -10,14 +10,14 @@ body {
     text-align: center;
     font-family: sans-serif;
     background:#99D9EA; /* light blue background */
-    color: #660066; /* dark purple text */
+    color: #000000; /* black text */
 }
 
 /*
 anchors have new color scheme to match rest of the website
 */
 a {
-    color: #008000; /* dark green text */
+    color: #660066; /* purple text */
 }
 
 /*
