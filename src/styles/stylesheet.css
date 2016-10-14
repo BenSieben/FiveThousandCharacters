@@ -34,3 +34,11 @@ div {
     margin: auto;
     width: 75%;
 }
+
+/*
+input, select, and textarea all have some vertical "margining"
+*/
+input, select, textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

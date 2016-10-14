@@ -1,5 +1,5 @@
 <?php
-require_once "Config.php";
+require_once("Config.php");
 /**
  * PHP script which utilizes the Config class
  * in order to connect to a DBMS and create a
@@ -7,6 +7,7 @@ require_once "Config.php";
  * all information for the website (also creates
  * some starter data to initialize the database)
  */
+
 // first attempt to establish a connection to the database
 $db = mysqli_connect(Config::DB_HOST, Config::DB_USERNAME, Config::DB_PASSWORD, "" , Config::DB_PORT);
 if(!$db) {

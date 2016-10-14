@@ -3,6 +3,7 @@ require_once("src/views/View.php");
 require_once("src/views/Landing.php");
 require_once("src/views/Read.php");
 require_once("src/views/Write.php");
+require_once("src/configs/Config.php");
 
 $mode = 1;
 if(isset($_REQUEST['mode'])) {

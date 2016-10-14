@@ -1,5 +1,9 @@
 <?php
 namespace cs174\hw3\views;
+
+// tells PHP we will be importing the Config class (actual import is in index.php), so that we can refer to it
+//   even if Config is not in the same namespace as this class
+use Config;
 /**
  * Class Write
  * @package cs174\hw3\views
@@ -20,6 +24,28 @@ class Write extends View {
 </head>
 <body>
     <h1><a href="?mode=1">Five Thousand Characters</a> - Write Something</h1>
+    <form name="writeForm" method="post">
+        <label>Title</label>
+        <input type="text" name="title" maxlength="<?= Config::WS_MAX_TITLE_LENGTH ?>" />
+        <br />
+        <label>Author</label>
+        <input type="text" name="author" maxlength="<?= Config::WS_MAX_AUTHOR_LENGTH ?>" />
+        <br />
+        <label>Identifier</label>
+        <input type="text" name="identifier" maxlength="<?= Config::WS_MAX_IDENTIFIER_LENGTH ?>" />
+        <br />
+        <label>Genre</label>
+        <select name="genre" title="Genre Filter Selection">
+            <option>List of all unique DB Genres go here, and multiple can be selected</option>
+        </select>
+        <br />
+        <textarea name="story" maxlength="<?= Config::WS_MAX_STORY_LENGTH ?>"
+                  rows="50" cols="100" placeholder="Write your story here!">
+        </textarea>
+        <br />
+        <input type="reset" />
+        <input type="submit" value="Save"/>
+    </form>
 </body>
 </html>
 <?php
