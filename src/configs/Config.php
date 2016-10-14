@@ -10,7 +10,7 @@
  */
 
 class Config {
-    // Database constants
+    // Database connection constants
     const DB_HOST = "127.0.0.1"; // host for the database
     const DB_USERNAME = "root"; // username for user connecting to database
     const DB_PASSWORD = ""; // password for user connecting to database
