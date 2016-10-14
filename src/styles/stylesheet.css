@@ -9,22 +9,22 @@ all body elements have centered text in sans-serif font
 body {
     text-align: center;
     font-family: sans-serif;
-    background:#99D9EA; /* light blue background */
-    color: #000000; /* black text */
+    background:#99D9EA; /* light blue */
+    color: #000000; /* black */
 }
 
 /*
 anchors have new color scheme to match rest of the website
 */
 a {
-    color: #660066; /* purple text */
+    color: #660066; /* purple */
 }
 
 /*
-anchors get their background "highlighted" yellow when hovered over
+anchors switch their color when hovered over
 */
 a:hover {
-    background: #FFFF00;
+    color: #FFFF00; /* yellow */
 }
 
 /*
