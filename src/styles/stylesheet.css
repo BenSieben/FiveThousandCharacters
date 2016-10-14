@@ -10,27 +10,27 @@ body {
     text-align: center;
     font-family: sans-serif;
     background:#99D9EA; /* light blue background */
-    color: #A349A4; /* purple text */
+    color: #660066; /* dark purple text */
 }
 
 /*
 anchors have new color scheme to match rest of the website
 */
 a {
-    color: #660066; /* dark purple text */
+    color: #008000; /* dark green text */
 }
 
 /*
 anchors get their background "highlighted" yellow when hovered over
 */
 a:hover {
-    background: yellow;
+    background: #FFFF00;
 }
 
 /*
-div is centered and has up to 50% width with centered text
+div is centered and has up to 75% width with centered text
 */
 div {
     margin: auto;
-    width: 50%;
+    width: 75%;
 }

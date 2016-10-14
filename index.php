@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Five Thousand Characters</title>
-    <meta charset="utf-8" />
-    <link rel="icon" href="src/resources/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
-</head>
-<body>
-    <h1>Five Thousand Characters</h1>
-    <ul>
-        <li><a href="src/views/Landing.php">Landing Page</a></li>
-    </ul>
-</body>
-</html>
+<?php
+require_once("src/views/View.php");
+require_once("src/views/Landing.php");
+require_once("src/views/Read.php");
+require_once("src/views/Write.php");
+$mode = 1;
+if($mode === 1) {
+    $landing = new cs174\hw3\views\Landing();
+    $landing->render(null);
+}
+?>

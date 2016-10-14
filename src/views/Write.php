@@ -1,9 +1,14 @@
 <?php
+namespace cs174\hw3\views;
 /**
- * Write A Story page for Five Thousand Characters Website
+ * Class Write
+ * @package cs174\hw3\views
+ *
+ * The View that displays the Write Something page
  */
 
-namespace cs174\hw3\views;
+class Write extends View {
+    function render($data){
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,3 +23,7 @@ namespace cs174\hw3\views;
 
 </body>
 </html>
+<?php
+    }
+}
+?>
