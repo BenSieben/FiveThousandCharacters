@@ -5,7 +5,7 @@ require_once("Config.php");
  * in order to connect to a DBMS and create a
  * new database which will be used to store
  * all information for the website (also creates
- * some starter data to initialize the database)
+ * some starter data to initialize the database with)
  */
 
 // first attempt to establish a connection to the database
@@ -17,8 +17,8 @@ if(!$db) {
 }
 
 // if connection worked, create and initialize the database
-echo("Connection success, now setting up database " . Config::DB_DATABASE . " (any existing " .
-    "database with this name will be deleted completely)\n");
+echo("Connection success, now setting up database " . Config::DB_DATABASE . " (any existing database with " .
+    "this name will be deleted completely, and some initial sample data will be loaded into the database)\n");
 
 // create the database and use it
 mysqli_query($db, "DROP DATABASE IF EXISTS " . Config::DB_DATABASE);
@@ -98,5 +98,8 @@ mysqli_query($db, "INSERT INTO StoryGenres(sID, gID)" .
           "('sample08', 15), " .
           "('sample09', 7), " .
           "('sample10', 11)");
+
+// let user know process has finished successfully
+echo("Done! The database should be ready for use now\n");
 
 ?>
