@@ -1,12 +1,14 @@
 <?php
 // import all the PHP classes for the website
+require_once("src/configs/Config.php");
+require_once("src/models/Model.php");
 require_once("src/views/View.php");
+
+require_once("src/models/RatingAdderModel.php");
+require_once("src/models/TopTenModel.php");
 require_once("src/views/Landing.php");
 require_once("src/views/Read.php");
 require_once("src/views/Write.php");
-require_once("src/configs/Config.php");
-require_once("src/models/Model.php");
-require_once("src/models/TopTenModel.php");
 
 $mode = 1;
 if(isset($_REQUEST['mode'])) {
@@ -24,9 +26,5 @@ else if($mode === 3){
     $landing = new cs174\hw3\views\Read();
     $landing->render(null);
 }
-
-$m = new \cs174\hw3\models\TopTenModel(NULL, 6);
-$result = $m->getTopTenRated();
-print_r(mysqli_fetch_all($result));
 
 ?>
