@@ -22,5 +22,8 @@ class Config {
     const WS_MAX_AUTHOR_LENGTH = 30; // maximum character length of author names for written stories
     const WS_MAX_IDENTIFIER_LENGTH = 20; // maximum character length of identifiers for written stories
     const WS_MAX_STORY_LENGTH = 5000; // maximum character length for written stories
+
+    // Other database constants
+    const MAX_GENRE_NAME_LENGTH = 20; // maximum character length of genre names in the database
 }
 ?>
