@@ -69,8 +69,34 @@ mysqli_query($db, "INSERT INTO Genre(name) VALUES('Action'), " .
                                                 "('Western')");
 
 // load up some sample stories
-/*mysqli_query($db, "INSERT INTO Story(sID, title, author, submitTime, content) " .
-    "VALUES('sample1', 'Winter Frost', 'Ace Brown', '2000-01-01 01:30:26', 'Winter is cold. I feel frosty...') " .
-")");*/
+mysqli_query($db, "INSERT INTO Story(sID, title, author, submitTime, content) " .
+    "VALUES('sample01', 'Winter Frost', 'Ace Brown', '2000-01-01 01:30:26', 'Winter is cold.\n\n I feel frosty...'), " .
+          "('sample02', 'Summer Blaze', 'Carl Dover', '2001-07-20 16:22:00', 'The day is late, and the night is bright.'), " .
+          "('sample03', 'Duck Drive', 'Edgar Funk', '2002-04-20 12:38:48', 'Funky fresh!'), " .
+          "('sample04', 'The Depths', 'Giovanni Hamilton', '2003-03-03 08:10:55', 'The cook was there in the morning, and gone at night.'), " .
+          "('sample05', 'Murky Swamp', 'Igor Juarez', '2004-02-22 14:18:37', 'In the depths of the swamp laid a monster. The monster was frightening.\n\nIn a single blink of the eye, they vanished.'), " .
+          "('sample06', 'Heightened Senses', 'Karen Lumberg', '2005-06-15 10:23:04', 'An explosion boomed through the house. I ran without thinking, only to find myself lost.\n\nHowever, I could hear music that brought me back.'), " .
+          "('sample07', 'Fluffy Bunny', 'Madison Nima', '2006-03-30 23:59:42', 'The fluffy bunny was quite funny. She liked too hop around and eat grass.'), " .
+          "('sample08', 'Blazing Stallion', 'Omar Price', '2007-12-28 15:00:36', 'Weapons at the ready, the cowboys were about to duel. The clock tower rang through the dusty town, and both raced to reach their weapons and claim victory.'), " .
+          "('sample09', 'Good Joke', 'Rachel Seagal', '2008-01-01 11:45:49', 'She knew he was cheating on him. It was just a matter of choosing how to handle the situation...'), " .
+          "('sample10', 'Pleasentries', 'Tess Uloo', '2009-11-16 20:16:09', 'It is pleasant too do nothing.\n\nIt is pleasant to shop.\n\nDon\'t forget about watching television, either!')");
+
+// associate some genres with the sample stories
+mysqli_query($db, "INSERT INTO StoryGenres(sID, gID)" .
+    "VALUES('sample01', 10), " .
+          "('sample01', 1), " .
+          "('sample02', 5), " .
+          "('sample02', 8), " .
+          "('sample03', 6), " .
+          "('sample03', 14), " .
+          "('sample04', 2), " .
+          "('sample04', 9), " .
+          "('sample05', 12), " .
+          "('sample06', 4), " .
+          "('sample06', 13), " .
+          "('sample07', 3), " .
+          "('sample08', 15), " .
+          "('sample09', 7), " .
+          "('sample10', 11)");
 
 ?>

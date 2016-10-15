@@ -18,7 +18,7 @@ class Config {
     const DB_PORT = "3307"; // port that database is on (note how this is NOT default port 3306!)
 
     // Write something constants
-    const WS_MAX_TITLE_LENGTH = 25; // maximum character length of title names for written stories
+    const WS_MAX_TITLE_LENGTH = 35; // maximum character length of title names for written stories
     const WS_MAX_AUTHOR_LENGTH = 30; // maximum character length of author names for written stories
     const WS_MAX_IDENTIFIER_LENGTH = 20; // maximum character length of identifiers for written stories
     const WS_MAX_STORY_LENGTH = 5000; // maximum character length for written stories
