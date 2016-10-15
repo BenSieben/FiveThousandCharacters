@@ -25,10 +25,8 @@ else if($mode === 3){
     $landing->render(null);
 }
 
-$m = new \cs174\hw3\models\Model();
-$db = $m -> getDatabaseConnection();
-$result = mysqli_query($db, "SELECT * FROM Genre");
+$m = new \cs174\hw3\models\TopTenModel(NULL, 6);
+$result = $m->getTopTenRated();
 print_r(mysqli_fetch_all($result));
-mysqli_close($db);
 
 ?>
