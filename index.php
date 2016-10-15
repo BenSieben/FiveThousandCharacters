@@ -1,4 +1,5 @@
 <?php
+// import all the PHP classes for the website
 require_once("src/views/View.php");
 require_once("src/views/Landing.php");
 require_once("src/views/Read.php");
@@ -26,6 +27,8 @@ else if($mode === 3){
 
 $m = new \cs174\hw3\models\Model();
 $db = $m -> getDatabaseConnection();
-
+$result = mysqli_query($db, "SELECT * FROM Genre");
+print_r(mysqli_fetch_all($result));
+mysqli_close($db);
 
 ?>

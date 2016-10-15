@@ -1,7 +1,5 @@
 <?php
 namespace cs174\hw3\models;
-require_once("../configs/Config.php");
-use Config;
 
 /**
  * Class TopTenModel
