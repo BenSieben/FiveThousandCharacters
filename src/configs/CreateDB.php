@@ -99,6 +99,8 @@ mysqli_query($db, "INSERT INTO StoryGenres(sID, gID)" .
           "('sample09', 7), " .
           "('sample10', 11)");
 
+mysqli_close($db);
+
 // let user know process has finished successfully
 echo("Done! The database should be ready for use now\n");
 
