@@ -79,7 +79,7 @@ mysqli_query($db, "INSERT INTO Story(sID, title, author, submitTime, content) " 
           "('sample07', 'Fluffy Bunny', 'Madison Nima', '2006-03-30 23:59:42', 'The fluffy bunny was quite funny. She liked too hop around and eat grass.'), " .
           "('sample08', 'Blazing Stallion', 'Omar Price', '2007-12-28 15:00:36', 'Weapons at the ready, the cowboys were about to duel. The clock tower rang through the dusty town, and both raced to reach their weapons and claim victory.'), " .
           "('sample09', 'Good Joke', 'Rachel Seagal', '2008-01-01 11:45:49', 'She knew he was cheating on him. It was just a matter of choosing how to handle the situation...'), " .
-          "('sample10', 'Pleasentries', 'Tess Uloo', '2009-11-16 20:16:09', 'It is pleasant too do nothing.\n\nIt is pleasant to shop.\n\nDon\'t forget about watching television, either!')");
+          "('sample10', 'Pleasentries', 'Tess Uloo', '2009-11-16 20:16:09', 'It is pleasant to do nothing.\n\nIt is pleasant to shop.\n\nDon\'t forget about watching television, either!')");
 
 // associate some genres with the sample stories
 mysqli_query($db, "INSERT INTO StoryGenres(sID, gID)" .
