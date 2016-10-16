@@ -42,3 +42,10 @@ input, select, textarea {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+/*
+ul, ol need to be centered for browsers such as Chrome
+*/
+ul, ol {
+    list-style-position: inside;
+}
