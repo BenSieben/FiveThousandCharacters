@@ -6,6 +6,7 @@ require_once("src/views/View.php");
 
 require_once("src/models/RatingAdderModel.php");
 require_once("src/models/TopTenModel.php");
+require_once("src/models/WriteStoryModel.php");
 require_once("src/views/Landing.php");
 require_once("src/views/Read.php");
 require_once("src/views/Write.php");
