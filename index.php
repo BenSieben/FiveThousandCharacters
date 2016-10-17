@@ -32,7 +32,4 @@ else if($mode === 3){
     $landing->render(null);
 }
 
-$m = new \cs174\hw3\views\helpers\ListItemHelper();
-echo($m->render([1, 2, 3, 4]));
-
 ?>
