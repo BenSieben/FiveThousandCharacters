@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\controllers;
+use cs174\hw3\views\Landing;
 
 /**
  * Class LandingController
@@ -16,7 +17,8 @@ class LandingController extends Controller {
      * View and select Model(s) to use for the View
      */
     public function processForms() {
-        echo("Landing!");
+        $view = new Landing();
+        $view->render(null);
     }
 }
 ?>

@@ -19,7 +19,7 @@ class Read extends View {
     <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="?mode=1">Five Thousand Characters</a> - Story Title</h1>
+    <h1><a href="?c=LandingController&?m=processForms">Five Thousand Characters</a> - Story Title</h1>
     <div>
         <b>Author</b>: author goes here
         <br />

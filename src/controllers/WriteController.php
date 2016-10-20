@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\controllers;
+use cs174\hw3\views\Write;
 
 /**
  * Class LandingController
@@ -16,7 +17,8 @@ class WriteController extends Controller {
      * View and select Model(s) to use for the View
      */
     public function processForms() {
-        echo("Write!");
+        $view = new Write();
+        $view->render(null);
     }
 }
 ?>

@@ -28,13 +28,15 @@ class Landing extends View {
 <body>
     <h1>Five Thousand Characters</h1>
     <ul>
-        <li><a href="?mode=3">Read a Story Page</a></li>
+        <li><a href="?c=ReadController&?m=processForms">Read a Story Page</a></li>
     </ul>
-    <h2><a href="?mode=2">Write Something!</a></h2> <!-- should take user to write something view -->
+    <h2><a href="?c=WriteController&?m=processForms">Write Something!</a></h2> <!-- should take user to write something view -->
     <h2>Check out what people are writing...</h2>
     <!-- TODO form data should be sanitized -->
     <!-- TODO form data should be saved in a session for the user -->
     <form name="filterForm" method="get">
+        <input type="hidden" name="c" value="LandingController" />
+        <input type="hidden" name="m" value="processForms" />
         <input type="text" name="textField" placeholder="Phrase Filter"/>
         <select name="genre" title="Genre Filter Selection">
             <option value="all">All Genres</option>

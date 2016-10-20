@@ -20,8 +20,8 @@ class Write extends View {
     <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="?mode=1">Five Thousand Characters</a> - Write Something</h1>
-    <form name="writeForm" method="post">
+    <h1><a href="?c=LandingController&?m=processForms">Five Thousand Characters</a> - Write Something</h1>
+    <form name="writeForm" method="post" action="?c=WriteController&?m=processForms">
         <label>Title</label>
         <br />
         <input type="text" name="title" maxlength="<?= Config::WS_MAX_TITLE_LENGTH ?>" />

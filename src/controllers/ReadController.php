@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\controllers;
+use cs174\hw3\views\Read;
 
 /**
  * Class LandingController
@@ -16,7 +17,8 @@ class ReadController extends Controller {
      * View and select Model(s) to use for the View
      */
     public function processForms() {
-        echo("Read!");
+        $view = new Read();
+        $view->render(null);
     }
 }
 ?>
