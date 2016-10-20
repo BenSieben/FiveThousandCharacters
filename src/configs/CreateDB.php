@@ -1,5 +1,6 @@
 <?php
 require_once("Config.php");
+
 /**
  * PHP script which utilizes the Config class
  * in order to connect to a DBMS and create a

@@ -1,12 +1,12 @@
 <?php
 namespace cs174\hw3\views;
+
 /**
  * Class Read
  * @package cs174\hw3\views
  *
  * The View that displays the Read Story page
  */
-
 class Read extends View {
     function render($data) {
 ?>

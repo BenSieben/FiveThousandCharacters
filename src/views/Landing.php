@@ -1,12 +1,13 @@
 <?php
 namespace cs174\hw3\views;
+use cs174\hw3\views\helpers\SelectOptionHelper;
+
 /**
  * Class Landing
  * @package cs174\hw3\views
  *
  * The View that displays the Landing page
  */
-
 class Landing extends View {
 
     /**
@@ -37,10 +38,12 @@ class Landing extends View {
     <form name="filterForm" method="get">
         <input type="hidden" name="c" value="LandingController" />
         <input type="hidden" name="m" value="processForms" />
-        <input type="text" name="textField" placeholder="Phrase Filter"/>
+        <input type="text" name="phraseFilter" placeholder="Phrase Filter" value="<?= $data['phraseFilter'] ?>"/>
         <select name="genre" title="Genre Filter Selection">
-            <option value="all">All Genres</option>
-            <option>List of all unique DB Genres go below</option>
+<?php
+            $selectOptionHelper = new SelectOptionHelper($data['genre']);
+            echo($selectOptionHelper->render($data['genreList']));
+            ?>
         </select>
         <input type="submit" value="Go"/>
     </form>

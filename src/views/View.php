@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\views;
+
 /**
  * Class View
  * @package cs174\hw3\views

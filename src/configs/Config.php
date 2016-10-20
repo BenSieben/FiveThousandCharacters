@@ -9,10 +9,9 @@
  * set up to make sure the website functions
  * properly
  */
-
 class Config {
 
-    //Constant for the full URL to where the index.php site is
+    //Constant for the full URL to where the index.php site is for Five Thousand Characters
     const URL_TO_INDEX = "http://localhost/cs174/hw3/index.php";
 
     // Database connection constants

@@ -1,13 +1,13 @@
 <?php
 namespace cs174\hw3\views;
 use Config;
+
 /**
  * Class Write
  * @package cs174\hw3\views
  *
  * The View that displays the Write Something page
  */
-
 class Write extends View {
     function render($data){
 ?>
@@ -24,19 +24,19 @@ class Write extends View {
     <form name="writeForm" method="post" action="?c=WriteController&?m=processForms">
         <label>Title</label>
         <br />
-        <input type="text" name="title" maxlength="<?= Config::WS_MAX_TITLE_LENGTH ?>" />
+        <input type="text" name="writeTitle" maxlength="<?= Config::WS_MAX_TITLE_LENGTH ?>" />
         <br />
         <label>Author</label>
         <br />
-        <input type="text" name="author" maxlength="<?= Config::WS_MAX_AUTHOR_LENGTH ?>" />
+        <input type="text" name="writeAuthor" maxlength="<?= Config::WS_MAX_AUTHOR_LENGTH ?>" />
         <br />
         <label>Identifier</label>
         <br />
-        <input type="text" name="identifier" maxlength="<?= Config::WS_MAX_IDENTIFIER_LENGTH ?>" />
+        <input type="text" name="writeIdentifier" maxlength="<?= Config::WS_MAX_IDENTIFIER_LENGTH ?>" />
         <br />
         <label>Genre</label>
         <br />
-        <select name="genre" title="Genre Filter Selection" multiple="multiple">
+        <select name="writeGenres" title="Genre Filter Selection" multiple="multiple">
             <option>List of all unique DB Genres go here, and multiple can be selected</option>
             <option>Other genres listed here</option>
         </select>

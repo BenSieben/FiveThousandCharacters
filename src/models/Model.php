@@ -1,7 +1,7 @@
 <?php
 namespace cs174\hw3\models;
-
 use Config;
+
 /**
  * Class Model
  * @package cs174\hw3\src\models

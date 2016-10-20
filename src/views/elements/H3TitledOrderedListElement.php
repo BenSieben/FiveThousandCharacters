@@ -2,7 +2,7 @@
 namespace cs174\hw3\views\elements;
 
 /**
- * Class TopTenOrderedListElement
+ * Class H3TitledOrderedListElement
  * @package cs174\hw3\views\elements
  *
  * Creates HTML code for top ten ordered

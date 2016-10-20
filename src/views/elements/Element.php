@@ -1,6 +1,13 @@
 <?php
 namespace cs174\hw3\views\elements;
 
+/**
+ * Class Element
+ * @package cs174\hw3\views\elements
+ *
+ * Elements are used for Views in reusable
+ * assets
+ */
 class Element {
 
     public $view; // reference to view the element is currently on

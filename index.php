@@ -21,10 +21,11 @@ spl_autoload_register(function ($className) {
     }
 });
 
-//$_REQUEST['c'] = 'WriteController';
 // Make a new Controller and let it determine what to do
 //   based on current values in PHP super globals
 $controller = new \cs174\hw3\controllers\Controller();
 $controller->processForms();
 
+// end the session for the user
+session_destroy();
 ?>
