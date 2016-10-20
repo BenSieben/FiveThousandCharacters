@@ -1,8 +1,5 @@
 <?php
 namespace cs174\hw3\views;
-
-// tells PHP we will be importing the Config class (actual import is in index.php), so that we can refer to it
-//   even if Config is not in the same namespace as this class
 use Config;
 /**
  * Class Write
