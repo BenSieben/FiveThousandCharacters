@@ -11,6 +11,10 @@
  */
 
 class Config {
+
+    //Constant for the full URL to where the index.php site is
+    const URL_TO_INDEX = "http://localhost/cs174/hw3/index.php";
+
     // Database connection constants
     const DB_HOST = "127.0.0.1"; // host for the database
     const DB_USERNAME = "root"; // username for user connecting to database

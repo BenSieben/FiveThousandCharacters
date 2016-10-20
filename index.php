@@ -1,4 +1,7 @@
 <?php
+// start a new Session for the user
+session_start();
+
 // import all the PHP classes for the website
 require_once("src/configs/Config.php"); // no namespace for Config.php, so autoload will not work for this class
 spl_autoload_register(function ($className) {
@@ -18,25 +21,9 @@ spl_autoload_register(function ($className) {
     }
 });
 
-$mode = 1;
-if(isset($_REQUEST['mode'])) {
-    $mode = intval($_REQUEST['mode']);
-}
-if($mode === 1) {
-    $landing = new cs174\hw3\views\Landing();
-    $landing->render(null);
-}
-else if($mode === 2){
-    $landing = new cs174\hw3\views\Write();
-    $landing->render(null);
-}
-else if($mode === 3){
-    $landing = new cs174\hw3\views\Read();
-    $landing->render(null);
-}
-
-$m = new cs174\hw3\models\GenreModel();
-$result = $m->getListOfGenres();
-print_r(mysqli_fetch_all($result));
+// Make a new Controller and let it determine what to do
+//   based on current values in PHP super globals
+$controller = new \cs174\hw3\controllers\Controller();
+$controller->processForms();
 
 ?>
