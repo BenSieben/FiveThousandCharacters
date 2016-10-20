@@ -35,4 +35,8 @@ else if($mode === 3){
     $landing->render(null);
 }
 
+$m = new cs174\hw3\models\GenreModel();
+$result = $m->getListOfGenres();
+print_r(mysqli_fetch_all($result));
+
 ?>

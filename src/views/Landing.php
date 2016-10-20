@@ -8,6 +8,13 @@ namespace cs174\hw3\views;
  */
 
 class Landing extends View {
+
+    /**
+     * Uses HTML to draw the landing page for the Five Thousand
+     * Characters website
+     * @param $data Array<String> array of data to show in the view
+     * (ex: filters, pre-filled forms, etc.)
+     */
     function render($data) {
 ?>
 <!DOCTYPE html>
