@@ -29,13 +29,8 @@ class Landing extends View {
 </head>
 <body>
     <h1>Five Thousand Characters</h1>
-    <ul>
-        <li><a href="?c=ReadController&?m=processForms">Read a Story Page</a></li>
-    </ul>
-    <h2><a href="?c=WriteController&?m=processForms">Write Something!</a></h2> <!-- should take user to write something view -->
+    <h2><a href="?c=WriteController&?m=processForms">Write Something!</a></h2>
     <h2>Check out what people are writing...</h2>
-    <!-- TODO form data should be sanitized -->
-    <!-- TODO form data should be saved in a session for the user -->
     <form name="filterForm" method="get">
         <input type="hidden" name="c" value="LandingController" />
         <input type="hidden" name="m" value="processForms" />

@@ -33,7 +33,7 @@ class GenreModel extends Model {
      */
     public function getGenreTitleID($genreTitle) {
         $db = parent::getDatabaseConnection();
-        $query = "SELECT gID FROM Genre WHERE title = '$genreTitle'";
+        $query = "SELECT gID FROM Genre WHERE title = '$genreTitle';";
         $result = mysqli_query($db, $query);
         mysqli_close($db);
         return $result;

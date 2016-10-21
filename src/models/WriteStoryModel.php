@@ -141,8 +141,10 @@ class WriteSomethingModel extends Model {
             "VALUES('" . $this->sID . "', '" . $this->title . "', '" .
             $this->author . "', '" . $this->content . "');";
         $result = mysqli_query($db, $query);
+        mysqli_close($db);
         if(!$result) {
             echo("Error occurred while inserting new story into database.");
+            mysqli_close($db);
             return false;
         }
         print_r($this->genres);
@@ -157,9 +159,11 @@ class WriteSomethingModel extends Model {
             $result = mysqli_query($db, $query);
             if(!$result) {
                 echo("Error occurred while inserting new story id / genre id pairs into database.");
+                mysqli_close($db);
                 return false;
             }
         }
+        mysqli_close($db);
         return true;
     }
 
@@ -184,6 +188,7 @@ class WriteSomethingModel extends Model {
         $result = mysqli_query($db, $query);
         if(!$result) {
             echo("Error occurred while updating story database with new data.");
+            mysqli_close($db);
             return false;
         }
         // next, clear any current genres for the story (in case they were removed by user)
@@ -191,6 +196,7 @@ class WriteSomethingModel extends Model {
         $result = mysqli_query($db, $query);
         if(!$result) {
             echo("Error occurred while clearing existing story-genre relations from the database.");
+            mysqli_close($db);
             return false;
         }
         // now add the new genre(s) to the StoryGenres relation
@@ -203,9 +209,11 @@ class WriteSomethingModel extends Model {
             $result = mysqli_query($db, $query);
             if(!$result) {
                 echo("Error occurred while inserting new story id / genre id pairs into database.");
+                mysqli_close($db);
                 return false;
             }
         }
+        mysqli_close($db);
         return true;
     }
 }

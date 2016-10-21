@@ -27,5 +27,6 @@ $controller = new \cs174\hw3\controllers\Controller();
 $controller->processForms();
 
 // end the session for the user
-session_destroy();
+// TODO remove this line when testing sessions (and ready to release final product)
+// session_destroy();
 ?>

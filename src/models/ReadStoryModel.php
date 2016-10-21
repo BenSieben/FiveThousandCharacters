@@ -53,6 +53,7 @@ class ReadStoryModel extends Model {
             echo("Failed to retrieve story data from the database.");
             return false;
         }
+        mysqli_close($db);
         return $result;
     }
 
@@ -75,6 +76,7 @@ class ReadStoryModel extends Model {
             echo("Error updating views for the specified story.");
             return false;
         }
+        mysqli_close($db);
         return $result1;
     }
 }

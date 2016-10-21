@@ -16,7 +16,7 @@ class RatingAdderModel extends Model {
     /**
      * Creates a new RatingAdderModel, responsible for adding new user ratings for stories to the database
      * @param $storyID String the identifier of the story being rated by the user
-     * @param $rating Int the user's rating of the story
+     * @param $rating String the user's rating of the story
      */
     public function __construct($storyID, $rating) {
         $this->storyID = $storyID;
@@ -61,7 +61,7 @@ class RatingAdderModel extends Model {
         if(!isset($this->storyID) || !isset($this->rating)) {
             return false;
         }
-        if(!is_string($this->storyID) || !is_integer($this->rating)) {
+        if(!is_string($this->storyID) || !is_string($this->rating)) {
             return false;
         }
 

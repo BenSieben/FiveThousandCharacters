@@ -9,7 +9,7 @@ all body elements have centered text in sans-serif font
 body {
     text-align: center;
     font-family: sans-serif;
-    background: #333333; /* dark blue */
+    background: #333333; /* dark gray */
     color: #FF6600; /* orange */
 }
 
@@ -28,11 +28,13 @@ a:hover {
 }
 
 /*
-div is centered and has up to 75% width with centered text
+div is centered and has up to 20% width with centered text with a darker background and some padding on all sides
 */
 div {
     margin: auto;
-    width: 75%;
+    width: 20%;
+    background: #222222; /* darker gray */;
+    padding: 10px 10px 10px 10px; /* top right bottom left padding */
 }
 
 /*

@@ -78,7 +78,7 @@ class LandingController extends Controller {
         if($result !== false) {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenRated array
-                $titleInfo['link'] = "?c=ReadController&?m=processForms&?sID=" . $row['sID'];
+                $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
                 $titleInfo['content'] = $row['title'];
                 array_push($data['topTenRated'], $titleInfo);
             }
@@ -90,7 +90,7 @@ class LandingController extends Controller {
         if($result !== false) {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenViewed array
-                $titleInfo['link'] = "?c=ReadController&?m=processForms&?sID=" . $row['sID'];
+                $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
                 $titleInfo['content'] = $row['title'];
                 array_push($data['topTenViewed'], $titleInfo);
             }
@@ -102,7 +102,7 @@ class LandingController extends Controller {
         if($result !== false) {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenNewest array
-                $titleInfo['link'] = "?c=ReadController&?m=processForms&?sID=" . $row['sID'];
+                $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
                 $titleInfo['content'] = $row['title'];
                 array_push($data['topTenNewest'], $titleInfo);
             }
