@@ -31,10 +31,10 @@ class Read extends View {
         if(strcmp($data['userRating'], '0') === 0) {
             // if userRating is '0', then they have not rated yet, so give them links to rate the story
             $sID = $data['sID'];
-            echo("<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=1\">1</a> " .
-                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=2\">2</a> " .
-                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=3\">3</a> " .
-                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=4\">4</a> " .
+            echo("<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=1\">1</a>  " .
+                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=2\">2</a>  " .
+                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=3\">3</a>  " .
+                "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=4\">4</a>  " .
                 "<a href=\"?c=ReadController&m=processForms&sID=$sID&rating=5\">5</a>");
         }
         else {
@@ -42,19 +42,19 @@ class Read extends View {
             //   but do not let them pick a rating again
             switch($data['userRating']) {
                 case "1":
-                    echo("<b>1</b> 2 3 4 5");
+                    echo("<b>1</b>  2  3  4  5");
                     break;
                 case "2":
-                    echo("1 <b>2</b> 3 4 5");
+                    echo("1  <b>2</b>  3  4  5");
                     break;
                 case "3":
-                    echo("1 2 <b>3</b> 4 5");
+                    echo("1  2  <b>3</b>  4  5");
                     break;
                 case "4":
-                    echo("1 2 3 <b>4</b> 5");
+                    echo("1  2  3  <b>4</b>  5");
                     break;
                 case "5":
-                    echo("1 2 3 4 <b>5</b>");
+                    echo("1  2  3  4  <b>5</b>");
                     break;
             }
         }

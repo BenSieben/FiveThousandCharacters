@@ -12,31 +12,31 @@ namespace cs174\hw3\views\helpers;
  */
 class SelectOptionHelper extends Helper {
 
-    private $optionToSelect; // lets user specify an option to select in the array $data of options to render
+    private $optionsToSelect; // lets user specify an option to select in the array $data of options to render
 
     /**
      * Creates a new SelectOptionHelper
-     * @param $optionToSelect String (optional) specify which element in $data for the render
+     * @param $optionsToSelect Array<String> (optional) specify which element(s) in $data for the render
      * function should be selected when the page loads
      */
-    public function __construct($optionToSelect = '') {
-        $this->optionToSelect = $optionToSelect;
+    public function __construct($optionsToSelect) {
+        $this->optionsToSelect = $optionsToSelect;
     }
 
     /**
-     * Returns the current option to select in the rendered options (in render function)
-     * @return String current option to select in rendered options (in render function)
+     * Returns the current options to select in the rendered options (in render function)
+     * @return Array<String> current options to select in rendered options (in render function)
      */
-    public function getOptionToSelect() {
-        return $this->optionToSelect;
+    public function getOptionsToSelect() {
+        return $this->optionsToSelect;
     }
 
     /**
-     * Changes the option to select in the rendered options to the argument String
-     * @param $optionToSelect String new option to select in the rendered options
+     * Changes the options to select in the rendered options to the argument String
+     * @param $optionsToSelect Array<String> new options to select in the rendered options
      */
-    public function setOptionToSelect($optionToSelect) {
-        $this->optionToSelect = $optionToSelect;
+    public function setOptionsToSelect($optionsToSelect) {
+        $this->optionsToSelect = $optionsToSelect;
     }
 
     /**
@@ -49,13 +49,19 @@ class SelectOptionHelper extends Helper {
         if(!isset($data) || !is_array($data)) {
             return false;
         }
+        print_r($this->optionsToSelect);
 
         $listHTML = "";
         foreach($data as $elm) {
-            if($elm === $this->optionToSelect) { // mark option as selected if $elm equals $this->optionToSelect
-                $listHTML .= "            <option selected=\"selected\">$elm</option>\n";
+            $foundSelect = false; // flag to keep track of if we already added $elm as selected option or not (so we don't duplicate $elm in output)
+            foreach($this->optionsToSelect as $select) {
+                if($elm === $select) { // mark option as selected if $elm equals any of the options to be selected
+                    $listHTML .= "            <option selected=\"selected\">$elm</option>\n";
+                    $foundSelect = true;
+                    break;
+                }
             }
-            else {
+            if(!$foundSelect) { // only add the regular $elm option if we did not already add the selected $elm option already
                 $listHTML .= "            <option>$elm</option>\n";
             }
         }

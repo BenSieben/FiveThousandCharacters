@@ -1,6 +1,7 @@
 <?php
 namespace cs174\hw3\views;
 use Config;
+use cs174\hw3\views\helpers\SelectOptionHelper;
 
 /**
  * Class Write
@@ -24,25 +25,31 @@ class Write extends View {
     <form name="writeForm" method="post" action="?c=WriteController&?m=processForms">
         <label>Title</label>
         <br />
-        <input type="text" name="writeTitle" maxlength="<?= Config::WS_MAX_TITLE_LENGTH ?>" />
+        <!-- Due to how the database is configured, if given data that passes max length specified in Config,
+         excess data gets truncated from database entry (no error message or anything). This is why I have elected to specify
+         the maxLength of all the fields on the write something view as the check for lengths of user input -->
+        <input type="text" name="writeTitle" value="<?= $data['writeTitle'] ?>" maxlength="<?= $data['maxTitleLength'] ?>" />
         <br />
         <label>Author</label>
         <br />
-        <input type="text" name="writeAuthor" maxlength="<?= Config::WS_MAX_AUTHOR_LENGTH ?>" />
+        <input type="text" name="writeAuthor" value="<?= $data['writeAuthor'] ?>" maxlength="<?= $data['maxAuthorLength'] ?>" />
         <br />
         <label>Identifier</label>
         <br />
-        <input type="text" name="writeIdentifier" maxlength="<?= Config::WS_MAX_IDENTIFIER_LENGTH ?>" />
+        <input type="text" name="writeIdentifier" value="<?= $data['writeIdentifier'] ?>" maxlength="<?= $data['maxIdentifierLength'] ?>" />
         <br />
-        <label>Genre</label>
+        <label>Genre(s)</label>
         <br />
-        <select name="writeGenres" title="Genre Filter Selection" multiple="multiple">
-            <option>List of all unique DB Genres go here, and multiple can be selected</option>
-            <option>Other genres listed here</option>
+        <select name="writeGenres[]" title="Genre Filter Selection" multiple="multiple" size="10">
+<?php
+            // render all genre options in the select drop down
+            $selectOptionHelper = new SelectOptionHelper($data['writeGenres']);
+            echo($selectOptionHelper->render($data['genreList']));
+            ?>
         </select>
         <br />
-        <textarea name="story" maxlength="<?= Config::WS_MAX_STORY_LENGTH ?>"
-                  rows="50" cols="100" placeholder="Write your story here!"></textarea>
+        <textarea name="writeStory" maxlength="<?= $data['maxStoryLength'] ?>"
+                  rows="50" cols="100" placeholder="Write your story here!"><?= $data['writeStory'] ?></textarea>
         <br />
         <input type="reset" />
         <input type="submit" value="Save"/>

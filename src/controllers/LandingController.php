@@ -50,11 +50,11 @@ class LandingController extends Controller {
         if(isset($_REQUEST['genre'])) { // add genre to session
             $_SESSION['genre'] = $_REQUEST['genre'];
         }
-        if(isset($_SESSION['genre'])) { // add phraseFilter to data if it is set in the session
-            $data['genre'] = $_SESSION['genre'];
+        if(isset($_SESSION['genre'])) { // add genre to data if it is set in the session (use array for SetOptionHelper compatibility)
+            $data['genre'][0] = $_SESSION['genre'];
         }
-        else { // add empty genre if it is not set in the session
-            $data['genre'] = '';
+        else { // add empty genre if it is not set in the session (use array for SetOptionHelper compatibility)
+            $data['genre'][0] = '';
         }
 
         // third data: genreList (array of all genres to list in the select drop down on the landing page)
@@ -69,7 +69,7 @@ class LandingController extends Controller {
 
         // for all top ten lists (made below), we need to set up the top ten model first
         $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : $data['phraseFilter'];
-        $topTenGenreID = (strcmp($data['genre'], '') === 0) ? null : $genreModel->getGenreTitleID($data['genre']);
+        $topTenGenreID = (strcmp($data['genre'][0], '') === 0) ? null : $genreModel->getGenreTitleID($data['genre'][0]);
         $topTenModel = new TopTenModel($topTenTitleFilter, $topTenGenreID);
 
         // fourth data: top ten rated titles
