@@ -69,7 +69,14 @@ class LandingController extends Controller {
 
         // for all top ten lists (made below), we need to set up the top ten model first
         $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : $data['phraseFilter'];
-        $topTenGenreID = (strcmp($data['genre'][0], '') === 0) ? null : $genreModel->getGenreTitleID($data['genre'][0]);
+        $topTenGenreID = null;
+        if(strcmp($data['genre'][0], '') !== 0 && strcmp($data['genre'][0], 'All Genres') !== 0) {
+            $r = $genreModel->getGenreNameID($data['genre'][0]);
+            foreach($r as $tuple) {
+                // result should only be one tuple; this is used to simplify getting result data
+                $topTenGenreID = $tuple['gID'];
+            }
+        }
         $topTenModel = new TopTenModel($topTenTitleFilter, $topTenGenreID);
 
         // fourth data: top ten rated titles

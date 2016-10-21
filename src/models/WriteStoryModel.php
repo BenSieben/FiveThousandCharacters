@@ -2,7 +2,7 @@
 namespace cs174\hw3\models;
 
 /**
- * Class WriteSomethingModel
+ * Class WriteStoryModel
  * @package cs174\hw3\models
  *
  * Model in charge of handling putting new stories
@@ -10,7 +10,7 @@ namespace cs174\hw3\models;
  * in the database for the Five Thousand Characters
  * website
  */
-class WriteSomethingModel extends Model {
+class WriteStoryModel extends Model {
 
     private $sID; // story identifier
     private $title; // story title
@@ -26,7 +26,7 @@ class WriteSomethingModel extends Model {
      * @param $content String the actual contents of the story
      * @param $genres Array<Int> the list of genre ID(s) that the story is categorized for
      */
-    public function __construct($sID, $title = NULL, $author = NULL, $content = NULL, $genres = []) {
+    public function __construct($sID, $title, $author, $content, $genres) {
         $this->sID = $sID;
         $this->title = $title;
         $this->author = $author;
@@ -141,21 +141,19 @@ class WriteSomethingModel extends Model {
             "VALUES('" . $this->sID . "', '" . $this->title . "', '" .
             $this->author . "', '" . $this->content . "');";
         $result = mysqli_query($db, $query);
-        mysqli_close($db);
         if(!$result) {
             echo("Error occurred while inserting new story into database.");
             mysqli_close($db);
             return false;
         }
-        print_r($this->genres);
         // now add the genre(s) to the StoryGenres relation
         if(isset($this->genres) && is_array($this->genres) && count($this->genres) > 0) {
-            echo(" huehuehue");
             $query = "INSERT INTO StoryGenres(sID, gID) VALUES ('" . $this->sID . "', " . $this->genres[0] . ")";
             for($i = 1; $i < count($this->genres); $i++) {
                 $query .= ", ('" . $this->sID . "', " . $this->genres[$i] . ")";
             }
             $query .= ";";
+            echo($query);
             $result = mysqli_query($db, $query);
             if(!$result) {
                 echo("Error occurred while inserting new story id / genre id pairs into database.");
@@ -185,6 +183,7 @@ class WriteSomethingModel extends Model {
             "author ='" . $this->author . "', " .
             "content ='" . $this->content . "' " .
             "WHERE sID = '" . $this->sID ."';";
+        echo($query);
         $result = mysqli_query($db, $query);
         if(!$result) {
             echo("Error occurred while updating story database with new data.");

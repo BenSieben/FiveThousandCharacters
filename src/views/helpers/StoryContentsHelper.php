@@ -23,7 +23,7 @@ class StoryContentsHelper extends Helper {
         }
         $paragraphHTML = '';
         foreach($data as $p) {
-            $paragraphHTML .= "    <p>$p</p>\n";
+            $paragraphHTML .= "        <p>$p</p>\n";
         }
         return $paragraphHTML;
     }

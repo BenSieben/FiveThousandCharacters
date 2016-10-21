@@ -49,8 +49,6 @@ class SelectOptionHelper extends Helper {
         if(!isset($data) || !is_array($data)) {
             return false;
         }
-        print_r($this->optionsToSelect);
-
         $listHTML = "";
         foreach($data as $elm) {
             $foundSelect = false; // flag to keep track of if we already added $elm as selected option or not (so we don't duplicate $elm in output)

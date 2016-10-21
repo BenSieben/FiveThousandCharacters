@@ -18,7 +18,7 @@ class TopTenModel extends Model {
     /**
      * Constructs a new TopTenModel
      * @param $titleFilter String to use to filter titles by (NULL to not filter by title)
-     * @param $genreFilter Int of genre ID to filter by (NULL to not filter by genre)
+     * @param $genreFilter String of genre ID to filter by (NULL to not filter by genre)
      */
     public function __construct($titleFilter = NULL, $genreFilter = NULL) {
         $this->titleFilter = $titleFilter;
@@ -33,7 +33,7 @@ class TopTenModel extends Model {
     }
 
     /**
-     * @return Int|null the current genre filter for this TopTenModel
+     * @return String|null the current genre filter for this TopTenModel
      */
     public function getGenreFilter() {
         return $this->genreFilter;
@@ -64,11 +64,11 @@ class TopTenModel extends Model {
         $query = "SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story ";
         if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
             $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
+            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
                 $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
             }
         }
-        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
+        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
             $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
         }
         $query .=" ORDER BY avgRating DESC, title ASC LIMIT 10;";
@@ -86,11 +86,11 @@ class TopTenModel extends Model {
         $query = "SELECT sID, title, views FROM Story ";
         if(isset($this->titleFilter ) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
             $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
+            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
                 $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
             }
         }
-        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
+        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
             $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
         }
         $query .=" ORDER BY views DESC, title ASC LIMIT 10;";
@@ -108,11 +108,11 @@ class TopTenModel extends Model {
         $query = "SELECT sID, title, submitTime FROM Story ";
         if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
             $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
+            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
                 $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
             }
         }
-        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
+        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
             $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
         }
         $query .=" ORDER BY submitTime DESC, title ASC LIMIT 10;";
