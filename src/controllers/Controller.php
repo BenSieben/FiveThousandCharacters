@@ -34,7 +34,6 @@ class Controller {
                 else if(strcmp($_REQUEST['c'], 'ReadController') === 0) { // use ReadController
                     $rc = new ReadController();
                     if(strcmp($_REQUEST['m'], 'processForms') === 0) { // use processForms method
-                        echo("Read!");
                         $rc->processForms();
                     }
                     else { // if method name is not recognized, default to processForms
@@ -44,7 +43,6 @@ class Controller {
                 else if(strcmp($_REQUEST['c'], 'WriteController') === 0) { // use WriteController
                     $wc = new WriteController();
                     if(strcmp($_REQUEST['m'], 'processForms') === 0) { // use processForms method
-                        echo("WRITE!");
                         $wc->processForms();
                     }
                     else { // if method name is not recognized, default to processForms
