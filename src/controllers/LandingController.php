@@ -1,6 +1,7 @@
 <?php
 namespace cs174\hw3\controllers;
 use cs174\hw3\models\GenreModel;
+use cs174\hw3\models\TopTenModel;
 use cs174\hw3\views\Landing;
 
 /**
@@ -62,15 +63,50 @@ class LandingController extends Controller {
         $data['genreList'] = ['All Genres']; // 'All Genres' is the first option in the select drop down
         if($result !== false) {
             foreach($result as $row) { // loops through each tuple of result relation
-                foreach($row as $columnName => $columnValue) { // loops through each column in each tuple of result relation
-                    if($columnName === 'name') { // we want to add all 'name' column values from Genre relation to the genreList
-                        array_push($data['genreList'], $columnValue);
-                    }
-                }
+                array_push($data['genreList'], $row['name']); // we want to add all 'name' column values from Genre relation to the genreList
             }
         }
 
-        // TODO the three top 10 lists also need to be rendered
+        // for all top ten lists (made below), we need to set up the top ten model first
+        $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : $data['phraseFilter'];
+        $topTenGenreID = (strcmp($data['genre'], '') === 0) ? null : $genreModel->getGenreTitleID($data['genre']);
+        $topTenModel = new TopTenModel($topTenTitleFilter, $topTenGenreID);
+
+        // fourth data: top ten rated titles
+        $result = $topTenModel->getTopTenRated();
+        $data['topTenRated'] = [];
+        if($result !== false) {
+            foreach($result as $row) { // loops through each tuple of result relation
+                // collect sID and title for each tuple, and push each pair to the topTenRated array
+                $titleInfo['sID'] = $row['sID'];
+                $titleInfo['title'] = $row['title'];
+                array_push($data['topTenRated'], $titleInfo);
+            }
+        }
+
+        // fifth data: top ten viewed titles
+        $result = $topTenModel->getTopTenViewed();
+        $data['topTenViewed'] = [];
+        if($result !== false) {
+            foreach($result as $row) { // loops through each tuple of result relation
+                // collect sID and title for each tuple, and push each pair to the topTenViewed array
+                $titleInfo['sID'] = $row['sID'];
+                $titleInfo['title'] = $row['title'];
+                array_push($data['topTenViewed'], $titleInfo);
+            }
+        }
+
+        // sixth data: top ten newest titles
+        $result = $topTenModel->getTopTenNewest();
+        $data['topTenNewest'] = [];
+        if($result !== false) {
+            foreach($result as $row) { // loops through each tuple of result relation
+                // collect sID and title for each tuple, and push each pair to the topTenNewest array
+                $titleInfo['sID'] = $row['sID'];
+                $titleInfo['title'] = $row['title'];
+                array_push($data['topTenNewest'], $titleInfo);
+            }
+        }
 
         return $data;
     }

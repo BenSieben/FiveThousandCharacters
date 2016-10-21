@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\views;
+use cs174\hw3\views\elements\H3TitledOrderedListElement;
 use cs174\hw3\views\helpers\SelectOptionHelper;
 
 /**
@@ -41,24 +42,20 @@ class Landing extends View {
         <input type="text" name="phraseFilter" placeholder="Phrase Filter" value="<?= $data['phraseFilter'] ?>"/>
         <select name="genre" title="Genre Filter Selection">
 <?php
+            // render all genre options in the select drop down
             $selectOptionHelper = new SelectOptionHelper($data['genre']);
             echo($selectOptionHelper->render($data['genreList']));
             ?>
         </select>
         <input type="submit" value="Go"/>
     </form>
-    <h3>Highest Rated</h3>
-    <ol>
-        <li>Top 10 highest rated stories go here</li>
-    </ol>
-    <h3>Most Viewed</h3>
-    <ol>
-        <li>Top 10 most viewed stories go here</li>
-    </ol>
-    <h3>Newest</h3>
-    <ol>
-        <li>Top 10 newest stories go here</li>
-    </ol>
+<?php
+            // render all three top ten lists
+            $h3TitledOrderedListElement = new H3TitledOrderedListElement($this);
+            echo($h3TitledOrderedListElement->render("Highest Rated", $data['topTenRated']));
+            echo($h3TitledOrderedListElement->render("Most Viewed", $data['topTenViewed']));
+            echo($h3TitledOrderedListElement->render("Newest", $data['topTenNewest']));
+    ?>
 </body>
 </html>
 <?php

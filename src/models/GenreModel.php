@@ -23,5 +23,20 @@ class GenreModel extends Model {
         mysqli_close($db);
         return $result;
     }
+
+    /**
+     * Queries database to get the genre ID of a given ID title
+     * @param $genreTitle String the genre title to get the genre ID of
+     * @return bool|\mysqli_result false if genreTitle is not the name
+     * of any existing genre in the database, or else the mysqli_result
+     * from querying the database for the genre ID of genreTitle
+     */
+    public function getGenreTitleID($genreTitle) {
+        $db = parent::getDatabaseConnection();
+        $query = "SELECT gID FROM Genre WHERE title = '$genreTitle'";
+        $result = mysqli_query($db, $query);
+        mysqli_close($db);
+        return $result;
+    }
 }
 ?>

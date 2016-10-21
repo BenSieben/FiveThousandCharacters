@@ -33,7 +33,7 @@ class H3TitledOrderedListElement extends Element {
         if(!isset($listName) || !is_string($listName)) {
             return false;
         }
-        $listHTML = "    <h3>$listName</h3>\n    <ol>";
+        $listHTML = "    <h3>$listName</h3>\n    <ol>\n";
         $listItemHelper = new \cs174\hw3\views\helpers\ListItemHelper();
         $listHTML .= $listItemHelper->render($data);
         $listHTML .= "    </ol>\n";

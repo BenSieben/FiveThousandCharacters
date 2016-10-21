@@ -24,7 +24,9 @@ class ListItemHelper extends Helper {
         }
         $listHTML = "";
         foreach($data as $elm) {
-            $listHTML .= "        <li>$elm</li>\n";
+            $sID = $elm['sID'];
+            $title = $elm['title'];
+            $listHTML .= "        <li><a href=\"?c=ReadController?m=processForms?sID=$sID\">$title</a></li>\n";
         }
         return $listHTML;
     }
