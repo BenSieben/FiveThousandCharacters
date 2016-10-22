@@ -66,16 +66,19 @@ class ReadController extends Controller {
         // now we can analyze query to extract relevant data to pass along to the Read view
         foreach($result as $row) {
             // there should only be a single row in the query result; this foreach is to more easily extract the data of the story tuple
-            $data['sID'] = $_REQUEST['sID'];
-            $data['title'] = $row['title'];
-            $data['author'] = $row['author'];
-            $data['submitTime'] = $row['submitTime'];
+            $data['sID'] = htmlspecialchars($_REQUEST['sID']); // use htmlspecialchars to convert to HTML-safe text
+            $data['title'] = htmlspecialchars($row['title']); // use htmlspecialchars to convert to HTML-safe text
+            $data['author'] = htmlspecialchars($row['author']); // use htmlspecialchars to convert to HTML-safe text
+            $data['submitTime'] = htmlspecialchars($row['submitTime']); // use htmlspecialchars to convert to HTML-safe text
             $data['avgRating'] = $row['avgRating'];
             // avgRating will be null if story is unrated, so change it to say 'Unrated' to tell user it has not been rated yet
             if($data['avgRating'] === null) {
                 $data['avgRating'] = '(Unrated)';
             }
             $data['content'] = preg_split("/\n\n/", $row['content']); // preg split the content of the story by 2 newline characters (for making paragraphs)
+            for($i = 0; $i < count($data['content']); $i++) {
+                $data['content'][$i] = htmlspecialchars($data['content'][$i]); // use htmlspecialchars to convert to HTML-safe text
+            }
             // last part of data is to check if user has rated this story or not, which will change how Read should appear to user
             if(isset($_SESSION[$_REQUEST['sID']])) {
                 $data['userRating'] = $_SESSION[$_REQUEST['sID']]; // give back rating user gave to this story if it exists in the session

@@ -53,21 +53,21 @@ class WriteController extends Controller {
         // check for data submitted to put it back in the forms again
         //   (they will be in session from WriteSubmitController)
         if(isset($_REQUEST['wt'])) { // check for title
-            $data['writeTitle'] = htmlspecialchars($_REQUEST['wt']); // get special html chars wh
+            $data['writeTitle'] = htmlspecialchars($_REQUEST['wt']); // use htmlspecialchars to convert special characters
         }
         else {
             $data['writeTitle'] = '';
         }
 
         if(isset($_REQUEST['wa'])) { // check for author
-            $data['writeAuthor'] = htmlspecialchars($_REQUEST['wa']);
+            $data['writeAuthor'] = htmlspecialchars($_REQUEST['wa']); // use htmlspecialchars to convert special characters
         }
         else {
             $data['writeAuthor'] = '';
         }
 
         if(isset($_REQUEST['wi'])) { // check for identifier
-            $data['writeIdentifier'] = htmlspecialchars($_REQUEST['wi']);
+            $data['writeIdentifier'] = htmlspecialchars($_REQUEST['wi']); // use htmlspecialchars to convert special characters
         }
         else {
             $data['writeIdentifier'] = '';
@@ -81,7 +81,7 @@ class WriteController extends Controller {
         }
 
         if(isset($_REQUEST['ws'])) { // check for story content
-            $data['writeStory'] = htmlspecialchars($_REQUEST['ws']);
+            $data['writeStory'] = htmlspecialchars($_REQUEST['ws']); // use htmlspecialchars to convert special characters
             // if story has new lines, we need to convert back to \n instead of %0A
             $data['writeStory'] = str_replace("%0A", "\n", $data['writeStory']);
         }
