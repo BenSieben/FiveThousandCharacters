@@ -33,12 +33,6 @@ class WriteController extends Controller {
     private function setUpViewData() {
         $data = [];
 
-        // load up Config constants for max length of write something input fields to pass to the Write view
-        $data['maxTitleLength'] = \Config::WS_MAX_TITLE_LENGTH;
-        $data['maxAuthorLength'] = \Config::WS_MAX_AUTHOR_LENGTH;
-        $data['maxIdentifierLength'] = \Config::WS_MAX_IDENTIFIER_LENGTH;
-        $data['maxStoryLength'] = \Config::WS_MAX_STORY_LENGTH;
-
         // genreList (array of all genres to list in the select drop down on the landing page)
         $genreModel = new GenreModel();
         $result = $genreModel->getListOfGenres();
@@ -51,51 +45,55 @@ class WriteController extends Controller {
 
         // check special case where only identifier was filled, in which case
         //   we load up the story with that identifier from the database (if it exists)
-        $loadData = $this->checkForLoad();
+        /*$loadData = $this->checkForLoad();
         if($loadData !== false) { // if not false, we will be loading data into Write view
             return array_merge($data, $loadData); // merge Config constants with other $loadData values to prepare the Write view
-        }
+        }*/
 
         // check for data submitted to put it back in the forms again
         //   (they will be in session from WriteSubmitController)
-        if(isset($_SESSION['writeTitle'])) { // check for title
-            $data['writeTitle'] = $_SESSION['writeTitle'];
-            unset($_SESSION['writeTitle']); // unset because we do not want the session value to persist if user leaves write view
+        if(isset($_REQUEST['wt'])) { // check for title
+            $data['writeTitle'] = htmlspecialchars($_REQUEST['wt']); // get special html chars wh
         }
         else {
             $data['writeTitle'] = '';
         }
 
-        if(isset($_SESSION['writeAuthor'])) { // check for author
-            $data['writeAuthor'] = $_SESSION['writeAuthor'];
-            unset($_SESSION['writeAuthor']); // unset because we do not want the session value to persist if user leaves write view
+        if(isset($_REQUEST['wa'])) { // check for author
+            $data['writeAuthor'] = htmlspecialchars($_REQUEST['wa']);
         }
         else {
             $data['writeAuthor'] = '';
         }
 
-        if(isset($_SESSION['writeIdentifier'])) { // check for identifier
-            $data['writeIdentifier'] = $_SESSION['writeIdentifier'];
-            unset($_SESSION['writeIdentifier']); // unset because we do not want the session value to persist if user leaves write view
+        if(isset($_REQUEST['wi'])) { // check for identifier
+            $data['writeIdentifier'] = htmlspecialchars($_REQUEST['wi']);
         }
         else {
             $data['writeIdentifier'] = '';
         }
 
-        if(isset($_SESSION['writeGenres'])) { // check for genre(s)
-            $data['writeGenres'] = $_SESSION['writeGenres'];
-            unset($_SESSION['writeGenres']); // unset because we do not want the session value to persist if user leaves write view
+        if(isset($_REQUEST['wg'])) { // check for genre(s)
+            $data['writeGenres'] = $_REQUEST['wg'];
         }
         else {
             $data['writeGenres'] = [];
         }
 
-        if(isset($_SESSION['writeStory'])) { // check for story content
-            $data['writeStory'] = $_SESSION['writeStory'];
-            unset($_SESSION['writeStory']); // unset because we do not want the session value to persist if user leaves write view
+        if(isset($_REQUEST['ws'])) { // check for story content
+            $data['writeStory'] = htmlspecialchars($_REQUEST['ws']);
+            // if story has new lines, we need to convert back to \n instead of %0A
+            $data['writeStory'] = str_replace("%0A", "\n", $data['writeStory']);
         }
         else {
             $data['writeStory'] = '';
+        }
+
+        if(isset($_REQUEST['err'])) { // check for error messages
+            $data['errorMessages'] = $_REQUEST['err'];
+        }
+        else {
+            $data['errorMessages'] = [];
         }
 
         return $data;
@@ -108,14 +106,13 @@ class WriteController extends Controller {
      * queries were successful and the load condition is met, or else
      * false
      */
-    private function checkForLoad() {
-        if(isset($_SESSION['writeIdentifier']) && strcmp($_SESSION['writeIdentifier'], '') !== 0
-            && (!isset($_SESSION['writeTitle']) || strcmp($_SESSION['writeTitle'], '') === 0)
-            && (!isset($_SESSION['writeAuthor']) || strcmp($_SESSION['writeAuthor'], '') === 0)
-            && (!isset($_SESSION['writeGenres']) || count($_SESSION['writeGenres']) === 0)
-            && (!isset($_SESSION['writeStory']) || strcmp($_SESSION['writeStory'], '') === 0)) {
-            $readStoryModel = new ReadStoryModel($_SESSION['writeIdentifier']);
-            unset($_SESSION['writeIdentifier']); // unset because we do not want the session value to persist if user leaves write view
+    /*private function checkForLoad() {
+        if(isset($_REQUEST['wi']) && strcmp($_REQUEST['wi'], '') !== 0
+            && (!isset($_REQUEST['wt']) || strcmp($_REQUEST['wt'], '') === 0)
+            && (!isset($_REQUEST['wa']) || strcmp($_REQUEST['wa'], '') === 0)
+            && (!isset($_REQUEST['wg']) || count($_REQUEST['wg']) === 0)
+            && (!isset($_REQUEST['ws']) || strcmp($_REQUEST['ws'], '') === 0)) {
+            $readStoryModel = new ReadStoryModel($_REQUEST['wi']);
             $result = $readStoryModel->editStory();
             if($result !== false) { // only load the story if the writeIdentifier is an actual story ID
                 foreach($result as $row) {
@@ -140,6 +137,7 @@ class WriteController extends Controller {
                             foreach($resultGenreNames as $genreName) {
                                 array_push($data['writeGenres'], $genreName['name']);
                             }
+                            $data['errorMessages'] = []; // also give empty error messages array
                             return $data;
                         }
                     }
@@ -147,6 +145,6 @@ class WriteController extends Controller {
             }
         }
         return false; // return false if any of the conditions failed (bad queries / improper $_REQUEST set up)
-    }
+    }*/
 }
 ?>

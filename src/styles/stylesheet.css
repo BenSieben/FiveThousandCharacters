@@ -51,3 +51,14 @@ ul, ol need to be centered for browsers such as Chrome
 ul, ol {
     list-style-position: inside;
 }
+
+/*
+p.err paragraphs are to show user error messages when they try to write a story that has parameter(s) that are too long
+*/
+p.err {
+    color: #FF4D4D; /* red */
+    background: #222222; /* darker gray */;
+    padding: 10px 10px 10px 10px; /* top right bottom left padding */
+    width: 50%;
+    margin: 10px auto 10px auto; /* top right bottom left margin */
+}

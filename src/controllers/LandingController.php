@@ -33,7 +33,11 @@ class LandingController extends Controller {
     private function setUpViewData() {
         $data = [];
 
-        // TODO sanitize form data
+        // sanitize the phrase filter
+        if(isset($_REQUEST['phraseFilter'])) {
+            // if there are special chars in phrase filter, they need to be converted to HTML-safe version
+            $_REQUEST['phraseFilter'] = filter_var($_REQUEST['phraseFilter'], FILTER_SANITIZE_SPECIAL_CHARS);
+        }
 
         // first data: phraseFilter
         if(isset($_REQUEST['phraseFilter'])) { // add phraseFilter to session if it was sent (via Landing page form)
@@ -68,7 +72,7 @@ class LandingController extends Controller {
         }
 
         // for all top ten lists (made below), we need to set up the top ten model first
-        $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : $data['phraseFilter'];
+        $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : htmlspecialchars_decode($data['phraseFilter']);
         $topTenGenreID = null;
         if(strcmp($data['genre'][0], '') !== 0 && strcmp($data['genre'][0], 'All Genres') !== 0) {
             $r = $genreModel->getGenreNameID($data['genre'][0]);
@@ -86,7 +90,7 @@ class LandingController extends Controller {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenRated array
                 $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
-                $titleInfo['content'] = $row['title'];
+                $titleInfo['content'] = htmlspecialchars($row['title']); // use htmlspecialchars to filter title special characters
                 array_push($data['topTenRated'], $titleInfo);
             }
         }
@@ -98,7 +102,7 @@ class LandingController extends Controller {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenViewed array
                 $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
-                $titleInfo['content'] = $row['title'];
+                $titleInfo['content'] = htmlspecialchars($row['title']); // use htmlspecialchars to filter title special characters
                 array_push($data['topTenViewed'], $titleInfo);
             }
         }
@@ -110,7 +114,7 @@ class LandingController extends Controller {
             foreach($result as $row) { // loops through each tuple of result relation
                 // collect sID and title for each tuple, and push each pair as a link / content pair to the topTenNewest array
                 $titleInfo['link'] = "?c=ReadController&m=processForms&sID=" . $row['sID'];
-                $titleInfo['content'] = $row['title'];
+                $titleInfo['content'] = htmlspecialchars($row['title']); // use htmlspecialchars to filter title special characters
                 array_push($data['topTenNewest'], $titleInfo);
             }
         }
