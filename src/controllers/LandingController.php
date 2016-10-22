@@ -35,8 +35,8 @@ class LandingController extends Controller {
 
         // sanitize the phrase filter
         if(isset($_REQUEST['phraseFilter'])) {
-            // if there are special chars in phrase filter, they need to be converted to HTML-safe version
-            $_REQUEST['phraseFilter'] = filter_var($_REQUEST['phraseFilter'], FILTER_SANITIZE_SPECIAL_CHARS);
+            // if there are special chars in phrase filter, take them out
+            $_REQUEST['phraseFilter'] = $txt = preg_replace('/[^a-zA-Z0-9]/', '', $_REQUEST['phraseFilter']);
         }
 
         // first data: phraseFilter
@@ -72,7 +72,7 @@ class LandingController extends Controller {
         }
 
         // for all top ten lists (made below), we need to set up the top ten model first
-        $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : htmlspecialchars_decode($data['phraseFilter']);
+        $topTenTitleFilter = (strcmp($data['phraseFilter'], '') === 0) ? null : $data['phraseFilter'];
         $topTenGenreID = null;
         if(strcmp($data['genre'][0], '') !== 0 && strcmp($data['genre'][0], 'All Genres') !== 0) {
             $r = $genreModel->getGenreNameID($data['genre'][0]);
