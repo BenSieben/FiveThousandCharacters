@@ -124,6 +124,8 @@ class WriteController extends Controller {
             foreach($result as $row) {
                 array_push($genreIDs, $row['gID']); // push genre IDs in $result to $genreIDs array
             }
+            // remove any carriage returns that might be in story content before saving
+            $_REQUEST['writeStory'] = str_replace("\r", "", $_REQUEST['writeStory']);
             $writeStoryModel = new WriteStoryModel($_REQUEST['writeIdentifier'], $_REQUEST['writeTitle'],
                 $_REQUEST['writeAuthor'], $_REQUEST['writeStory'], $genreIDs);
             return $writeStoryModel->addStory();

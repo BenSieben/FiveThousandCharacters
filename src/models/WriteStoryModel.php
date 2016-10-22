@@ -110,10 +110,15 @@ class WriteStoryModel extends Model {
     public function addStory() {
         // first determine if we should update an existing story
         //   or add a brand-new story by checking the story identifier
-        $db = parent::getDatabaseConnection();
-        $result = mysqli_query($db, "SELECT * FROM Story WHERE sID = '" . $this->sID ."';");
-        mysqli_close($db);
-        if(mysqli_num_rows($result) === 0) {
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("SELECT * FROM Story WHERE sID =  ?");
+        $statement->bind_param("s", $this->sID); // s = string
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
+        if(mysqli_num_rows($result) === 0) { // if result relation is empty, that means sID is not inside database yet
             // if sID is new, then we are adding a brand new story
             return $this->createStory();
         }
@@ -135,33 +140,33 @@ class WriteStoryModel extends Model {
         if(!is_string($this->sID) || !is_string($this->title) || !is_string($this->author) || !is_string($this->content)) {
             return false;
         }
-        $db = parent::getDatabaseConnection();
+        $mysqli = parent::getDatabaseConnection();
         // first insert the story into the Story relation
-        $query = "INSERT INTO Story(sID, title, author, content)" .
-            "VALUES('" . $this->sID . "', '" . $this->title . "', '" .
-            $this->author . "', '" . $this->content . "');";
-        $result = mysqli_query($db, $query);
-        if(!$result) {
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("INSERT INTO Story(sID, title, author, content) VALUES(?, ?, ?, ?)");
+        $statement->bind_param("ssss", $this->sID, $this->title, $this->author, $this->content); // s = string
+        $statement->execute();
+        $statement->close();
+        if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
             echo("Error occurred while inserting new story into database.");
-            mysqli_close($db);
+            $mysqli->close();
             return false;
         }
+
         // now add the genre(s) to the StoryGenres relation
         if(isset($this->genres) && is_array($this->genres) && count($this->genres) > 0) {
             $query = "INSERT INTO StoryGenres(sID, gID) VALUES ('" . $this->sID . "', " . $this->genres[0] . ")";
             for($i = 1; $i < count($this->genres); $i++) {
                 $query .= ", ('" . $this->sID . "', " . $this->genres[$i] . ")";
             }
-            $query .= ";";
-            echo($query);
-            $result = mysqli_query($db, $query);
+            $result = $mysqli->query($query);
             if(!$result) {
                 echo("Error occurred while inserting new story id / genre id pairs into database.");
-                mysqli_close($db);
+                $mysqli->close();
                 return false;
             }
         }
-        mysqli_close($db);
+        $mysqli->close();
         return true;
     }
 
@@ -177,42 +182,45 @@ class WriteStoryModel extends Model {
         if(!is_string($this->sID) || !is_string($this->title) || !is_string($this->author) || !is_string($this->content)) {
             return false;
         }
-        $db = parent::getDatabaseConnection();
-        // first update the existing story in the database with the same story identifier
-        $query = "UPDATE Story SET title='" . $this->title . "', " .
-            "author ='" . $this->author . "', " .
-            "content ='" . $this->content . "' " .
-            "WHERE sID = '" . $this->sID ."';";
-        echo($query);
-        $result = mysqli_query($db, $query);
-        if(!$result) {
+        $mysqli = parent::getDatabaseConnection();
+        // first insert the story into the Story relation
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("UPDATE Story SET title = ?, author = ?, content = ? WHERE sID = ?");
+        $statement->bind_param("ssss", $this->title, $this->author, $this->content, $this->sID); // s = string
+        $statement->execute();
+        $statement->close();
+        if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
             echo("Error occurred while updating story database with new data.");
-            mysqli_close($db);
+            $mysqli->close();
             return false;
         }
+
         // next, clear any current genres for the story (in case they were removed by user)
-        $query = "DELETE FROM StoryGenres WHERE sID ='" . $this->sID ."';";
-        $result = mysqli_query($db, $query);
-        if(!$result) {
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("DELETE FROM StoryGenres WHERE sID = ?");
+        $statement->bind_param("s", $this->sID); // s = string
+        $statement->execute();
+        $statement->close();
+        if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
             echo("Error occurred while clearing existing story-genre relations from the database.");
-            mysqli_close($db);
+            $mysqli->close();
             return false;
         }
-        // now add the new genre(s) to the StoryGenres relation
+
+        // now add the genre(s) to the StoryGenres relation
         if(isset($this->genres) && is_array($this->genres) && count($this->genres) > 0) {
             $query = "INSERT INTO StoryGenres(sID, gID) VALUES ('" . $this->sID . "', " . $this->genres[0] . ")";
             for($i = 1; $i < count($this->genres); $i++) {
                 $query .= ", ('" . $this->sID . "', " . $this->genres[$i] . ")";
             }
-            $query .= ";";
-            $result = mysqli_query($db, $query);
+            $result = $mysqli->query($query);
             if(!$result) {
                 echo("Error occurred while inserting new story id / genre id pairs into database.");
-                mysqli_close($db);
+                $mysqli->close();
                 return false;
             }
         }
-        mysqli_close($db);
+        $mysqli->close();
         return true;
     }
 }

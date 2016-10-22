@@ -45,15 +45,18 @@ class ReadStoryModel extends Model {
             echo("To use the ReadStoryModel, a String sID must be set. Please set a valid sID.");
             return false;
         }
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT sID, title, author, submitTime, (ratingsSum / ratingsCount) " .
-            "AS avgRating, content FROM Story WHERE sID ='" . $this->sID ."';";
-        $result = mysqli_query($db, $query);
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("SELECT sID, title, author, submitTime, (ratingsSum / ratingsCount) AS avgRating, content FROM Story WHERE sID = ?");
+        $statement->bind_param("s", $this->sID); // s = string
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
         if(!$result) {
             echo("Failed to retrieve story data from the database.");
             return false;
         }
-        mysqli_close($db);
         return $result;
     }
 
@@ -69,14 +72,19 @@ class ReadStoryModel extends Model {
             return false;
         }
         // if reading was successful, also increment the views for this story by 1
-        $db = parent::getDatabaseConnection();
-        $query = "UPDATE Story SET views = views + 1 WHERE sID = '" . $this->sID ."';";
-        $result2 = mysqli_query($db, $query);
-        if(!$result2) {
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("UPDATE Story SET views = views + 1 WHERE sID = ?");
+        $statement->bind_param("s", $this->sID); // s = string
+        $statement->execute();
+        if($mysqli->affected_rows <= 0) { // this will check if we have updated at least one row (which should always happen in successful update)
             echo("Error updating views for the specified story.");
+            $statement->close();
+            $mysqli->close();
             return false;
         }
-        mysqli_close($db);
+        $statement->close();
+        $mysqli->close();
         return $result1;
     }
 }

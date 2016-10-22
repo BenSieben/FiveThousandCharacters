@@ -21,7 +21,7 @@ class TopTenModel extends Model {
      * @param $genreFilter String of genre ID to filter by (NULL to not filter by genre)
      */
     public function __construct($titleFilter = NULL, $genreFilter = NULL) {
-        $this->titleFilter = $titleFilter;
+        $this->titleFilter = "%" . $titleFilter . "%"; // add percent signs because this is used in LIKE in MySQL queries
         $this->genreFilter = $genreFilter;
     }
 
@@ -44,7 +44,7 @@ class TopTenModel extends Model {
      * @param $titleFilter String to use to filter titles by (NULL to not filter by title)
      */
     public function setTitleFilter($titleFilter) {
-        $this->titleFilter = $titleFilter;
+        $this->titleFilter = "%" . $titleFilter . "%"; // add percent signs because this is used in LIKE in MySQL queries
     }
 
     /**
@@ -60,21 +60,58 @@ class TopTenModel extends Model {
      * @return bool|\mysqli_result Result of querying top ten rated stories (with specified filters)
      */
     public function getTopTenRated() {
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story ";
         if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
-            $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
-                $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // need to check title filter and genre filter
+                echo("<!-- phrase and genre -->\n");
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
+                    "WHERE title LIKE ? AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                    "ORDER BY avgRating DESC, title ASC LIMIT 10");
+                $statement->bind_param("si", $this->titleFilter, $this->genreFilter); // s = string, i = integer
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
+            }
+            else { // only need to check title filter
+                echo("<!-- phrase -->\n");
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
+                    "WHERE title LIKE ? " .
+                    "ORDER BY avgRating DESC, title ASC LIMIT 10");
+                $statement->bind_param("s", $this->titleFilter); // s = string
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
             }
         }
-        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
-            $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // only need to check genre filter
+            echo("<!-- genre -->\n");
+            $mysqli = parent::getDatabaseConnection();
+            $statement = $mysqli->stmt_init();
+            $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
+                "WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                "ORDER BY avgRating DESC, title ASC LIMIT 10");
+            $statement->bind_param("i", $this->genreFilter); // i = integer
+            $statement->execute();
+            $result = $statement->get_result();
+            $statement->close();
+            $mysqli->close();
+            return $result;
         }
-        $query .=" ORDER BY avgRating DESC, title ASC LIMIT 10;";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
-        return $result;
+        else { // run select without any WHERE clause if there is no title filter or genre filter
+            echo("<!-- none -->\n");
+            $mysqli = parent::getDatabaseConnection();
+            $result = $mysqli->query("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
+                "ORDER BY avgRating DESC, title ASC LIMIT 10");
+            $mysqli->close();
+            return $result;
+        }
     }
 
     /**
@@ -82,21 +119,54 @@ class TopTenModel extends Model {
      * @return bool|\mysqli_result Result of querying top ten viewed stories (with specified filters)
      */
     public function getTopTenViewed() {
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT sID, title, views FROM Story ";
-        if(isset($this->titleFilter ) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
-            $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
-                $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+        if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
+            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // need to check title filter and genre filter
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, views FROM Story " .
+                    "WHERE title LIKE ? AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                    "ORDER BY views DESC, title ASC LIMIT 10");
+                $statement->bind_param("si", $this->titleFilter, $this->genreFilter); // s = string, i = integer
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
+            }
+            else { // only need to check title filter
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, views FROM Story " .
+                    "WHERE title LIKE ? " .
+                    "ORDER BY views DESC, title ASC LIMIT 10");
+                $statement->bind_param("s", $this->titleFilter); // s = string
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
             }
         }
-        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
-            $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // only need to check genre filter
+            $mysqli = parent::getDatabaseConnection();
+            $statement = $mysqli->stmt_init();
+            $statement->prepare("SELECT sID, title, views FROM Story " .
+                "WHERE  sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                "ORDER BY views DESC, title ASC LIMIT 10");
+            $statement->bind_param("i", $this->genreFilter); // i = integer
+            $statement->execute();
+            $result = $statement->get_result();
+            $statement->close();
+            $mysqli->close();
+            return $result;
         }
-        $query .=" ORDER BY views DESC, title ASC LIMIT 10;";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
-        return $result;
+        else { // run select without any WHERE clause if there is no title filter or genre filter
+            $mysqli = parent::getDatabaseConnection();
+            $result = $mysqli->query("SELECT sID, title, views FROM Story " .
+                "ORDER BY views DESC, title ASC LIMIT 10");
+            $mysqli->close();
+            return $result;
+        }
     }
 
     /**
@@ -104,21 +174,54 @@ class TopTenModel extends Model {
      * @return bool|\mysqli_result Result of querying top ten newest stories (with specified filters)
      */
     public function getTopTenNewest() {
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT sID, title, submitTime FROM Story ";
         if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
-            $query .= " WHERE title LIKE '%" . $this->titleFilter . "%' ";
-            if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add another condition to WHERE clause of query if genre filter is set
-                $query .= " AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+            if(isset($this->genreFilter) && is_int($this->genreFilter)) { // need to check title filter and genre filter
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, submitTime FROM Story " .
+                    "WHERE title LIKE ? AND sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                    "ORDER BY submitTime DESC, title ASC LIMIT 10");
+                $statement->bind_param("si", $this->titleFilter, $this->genreFilter); // s = string, i = integer
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
+            }
+            else { // only need to check title filter
+                $mysqli = parent::getDatabaseConnection();
+                $statement = $mysqli->stmt_init();
+                $statement->prepare("SELECT sID, title, submitTime FROM Story " .
+                    "WHERE title LIKE ? " .
+                    "ORDER BY submitTime DESC, title ASC LIMIT 10");
+                $statement->bind_param("s", $this->titleFilter); // s = string
+                $statement->execute();
+                $result = $statement->get_result();
+                $statement->close();
+                $mysqli->close();
+                return $result;
             }
         }
-        else if(isset($this->genreFilter) && is_string($this->genreFilter)) { // add WHERE clause to query if user specified a genre filter
-            $query .= " WHERE sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = " . $this->genreFilter . ") ";
+        else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // only need to check genre filter
+            $mysqli = parent::getDatabaseConnection();
+            $statement = $mysqli->stmt_init();
+            $statement->prepare("SELECT sID, title, submitTime FROM Story " .
+                "WHERE  sID IN (SELECT SG.sID FROM StoryGenres AS SG WHERE SG.gID = ?)" .
+                "ORDER BY submitTime DESC, title ASC LIMIT 10");
+            $statement->bind_param("i", $this->genreFilter); // i = integer
+            $statement->execute();
+            $result = $statement->get_result();
+            $statement->close();
+            $mysqli->close();
+            return $result;
         }
-        $query .=" ORDER BY submitTime DESC, title ASC LIMIT 10;";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
-        return $result;
+        else { // run select without any WHERE clause if there is no title filter or genre filter
+            $mysqli = parent::getDatabaseConnection();
+            $result = $mysqli->query("SELECT sID, title, submitTime FROM Story " .
+                "ORDER BY submitTime DESC, title ASC LIMIT 10");
+            $mysqli->close();
+            return $result;
+        }
     }
 }
 ?>

@@ -47,7 +47,7 @@ class ReadController extends Controller {
         if(isset($_REQUEST['rating']) && !isset($_SESSION['sID'])) {
             $_SESSION[$_REQUEST['sID']] = $_REQUEST['rating'];
             // use RatingAdderModel to add the user's rating to the database
-            $ratingAdderModel = new RatingAdderModel($_REQUEST['sID'], $_SESSION[$_REQUEST['sID']]);
+            $ratingAdderModel = new RatingAdderModel($_REQUEST['sID'], intval($_SESSION[$_REQUEST['sID']]));
             $addRatingRequest = $ratingAdderModel->addStoryRating();
             if(!$addRatingRequest) {
                 unset($_SESSION[$_REQUEST['sID']]); // if adding the rating failed, unset $_SESSION[$_REQUEST['sID']]

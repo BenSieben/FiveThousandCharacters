@@ -43,10 +43,18 @@ class StoryIdentifierModel extends Model {
      * or result of query to obtain story ID otherwise
      */
     public function getStoryID() {
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT sID FROM Story WHERE title='" . $this->storyTitle ."';";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
+        if(!isset($this->storyTitle) || !is_string($this->storyTitle)) {
+            echo("Error: to use StoryIdentifierModel you must be using a valid storyTitle field");
+            return false;
+        }
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("SELECT sID FROM Story WHERE title = ?");
+        $statement->bind_param("s", $this->storyTitle); // s = string
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
         return $result;
     }
 }

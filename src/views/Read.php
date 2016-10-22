@@ -65,8 +65,7 @@ class Read extends View {
     <br />
     <br />
     <br />
-    <div>
-<?php
+    <div><?php
         // must show the content of the story in paragraphs, which is done by StoryContentsHelper
         $storyContentsHelper = new StoryContentsHelper();
         echo($storyContentsHelper->render($data['content']));

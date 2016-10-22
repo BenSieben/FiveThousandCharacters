@@ -16,7 +16,7 @@ class RatingAdderModel extends Model {
     /**
      * Creates a new RatingAdderModel, responsible for adding new user ratings for stories to the database
      * @param $storyID String the identifier of the story being rated by the user
-     * @param $rating String the user's rating of the story
+     * @param $rating Int the user's rating of the story
      */
     public function __construct($storyID, $rating) {
         $this->storyID = $storyID;
@@ -61,16 +61,19 @@ class RatingAdderModel extends Model {
         if(!isset($this->storyID) || !isset($this->rating)) {
             return false;
         }
-        if(!is_string($this->storyID) || !is_string($this->rating)) {
+        if(!is_string($this->storyID) || !is_int($this->rating)) {
             return false;
         }
 
         // given valid fields, we can query the database to add the rating
-        $db = parent::getDatabaseConnection();
-        $query = "UPDATE Story SET ratingsSum = ratingsSum + " . $this->rating . ", ratingsCount = ratingsCount + 1 ";
-        $query .="WHERE sID = '" . $this->storyID . "';";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("UPDATE Story SET ratingsSum = ratingsSum + ?, ratingsCount = ratingsCount + 1 WHERE sID = ?");
+        $statement->bind_param("is", $this->rating, $this->storyID); // i = integer, s = string
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
         return $result;
     }
 }

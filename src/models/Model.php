@@ -15,7 +15,7 @@ class Model {
      * @return \mysqli the database connection (based on settings in Config.php)
      */
     function getDatabaseConnection() {
-        return mysqli_connect(Config::DB_HOST, Config::DB_USERNAME, Config::DB_PASSWORD, Config::DB_DATABASE, Config::DB_PORT);
+        return new \mysqli(Config::DB_HOST, Config::DB_USERNAME, Config::DB_PASSWORD, Config::DB_DATABASE, Config::DB_PORT);
     }
 }
 

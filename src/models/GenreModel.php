@@ -18,28 +18,32 @@ class GenreModel extends Model {
      * or result of query to obtain all genre IDs and names in mysqli_query result otherwise
      */
     public function getListOfGenres() {
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT * FROM Genre;";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
+        $mysqli = parent::getDatabaseConnection();
+        $query = "SELECT * FROM Genre";
+        $result = $mysqli->query($query);
+        $mysqli->close();
         return $result;
     }
 
     /**
      * Queries database to get the genre ID of a given title ID
-     * @param $genreTitle String the genre name to get the genre ID of
+     * @param $genreName String the genre name to get the genre ID of
      * @return bool|\mysqli_result false if genreTitle is not the name
      * of any existing genre in the database, or else the mysqli_result
      * from querying the database for the genre ID of genreTitle
      */
-    public function getGenreNameID($genreTitle) {
-        if(!isset($genreTitle) || !is_string($genreTitle)) {
+    public function getGenreNameID($genreName) {
+        if(!isset($genreName) || !is_string($genreName)) {
             return false;
         }
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT gID FROM Genre WHERE name = '$genreTitle';";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("SELECT gID FROM Genre WHERE name = ?");
+        $statement->bind_param("s", $genreName); // s = string, to replace ? in prepared statement
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
         return $result;
     }
 
@@ -54,10 +58,14 @@ class GenreModel extends Model {
         if(!isset($sID) || !is_string($sID)) {
             return false;
         }
-        $db = parent::getDatabaseConnection();
-        $query = "SELECT gID FROM StoryGenres WHERE sID='$sID';";
-        $result = mysqli_query($db, $query);
-        mysqli_close($db);
+        $mysqli = parent::getDatabaseConnection();
+        $statement = $mysqli->stmt_init();
+        $statement->prepare("SELECT gID FROM StoryGenres WHERE sID = ?");
+        $statement->bind_param("s", $sID);
+        $statement->execute();
+        $result = $statement->get_result();
+        $statement->close();
+        $mysqli->close();
         return $result;
     }
 
@@ -88,22 +96,22 @@ class GenreModel extends Model {
     }
 
     /**
-     * Queries database to get the genre IDs of given title names
-     * @param $genreTitles Array<String> the genre title to get the genre ID of
-     * @return bool|\mysqli_result false if genreTitle is not the name
-     * of any existing genre in the database, or else the mysqli_result
+     * Queries database to get the genre IDs of given genre names
+     * @param $genreNames Array<String> the genre name(s) to get the genre ID(s) of
+     * @return bool|\mysqli_result false if genreNames is not
+     * set up properly, or else the mysqli_result
      * from querying the database for the genre IDs of genreTitles
      */
-    public function getGenreIDs($genreTitles) {
-        if(!isset($genreTitles) || !is_array($genreTitles)) {
+    public function getGenreIDs($genreNames) {
+        if(!isset($genreNames) || !is_array($genreNames)) {
             echo("<!-- fail input check -->\n");
             return false;
         }
         $db = parent::getDatabaseConnection();
-        $genreTitle = $genreTitles[0];
+        $genreTitle = $genreNames[0];
         $query = "SELECT gID FROM Genre WHERE name = '$genreTitle' ";
-        for($i = 1; $i < count($genreTitles); $i++) {
-            $genreTitle = $genreTitles[$i];
+        for($i = 1; $i < count($genreNames); $i++) {
+            $genreTitle = $genreNames[$i];
             $query .= "OR name='$genreTitle' ";
         }
         $query .= ";";

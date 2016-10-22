@@ -77,7 +77,7 @@ class LandingController extends Controller {
                 $topTenGenreID = $tuple['gID'];
             }
         }
-        $topTenModel = new TopTenModel($topTenTitleFilter, $topTenGenreID);
+        $topTenModel = new TopTenModel($topTenTitleFilter, $topTenGenreID === null ? null : intval($topTenGenreID));
 
         // fourth data: top ten rated titles
         $result = $topTenModel->getTopTenRated();
