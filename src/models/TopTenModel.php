@@ -62,7 +62,6 @@ class TopTenModel extends Model {
     public function getTopTenRated() {
         if(isset($this->titleFilter) && is_string($this->titleFilter)) { // add WHERE clause to query if user specified a title filter
             if(isset($this->genreFilter) && is_int($this->genreFilter)) { // need to check title filter and genre filter
-                echo("<!-- phrase and genre -->\n");
                 $mysqli = parent::getDatabaseConnection();
                 $statement = $mysqli->stmt_init();
                 $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
@@ -76,7 +75,6 @@ class TopTenModel extends Model {
                 return $result;
             }
             else { // only need to check title filter
-                echo("<!-- phrase -->\n");
                 $mysqli = parent::getDatabaseConnection();
                 $statement = $mysqli->stmt_init();
                 $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
@@ -91,7 +89,6 @@ class TopTenModel extends Model {
             }
         }
         else if(isset($this->genreFilter) && is_int($this->genreFilter)) { // only need to check genre filter
-            echo("<!-- genre -->\n");
             $mysqli = parent::getDatabaseConnection();
             $statement = $mysqli->stmt_init();
             $statement->prepare("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
@@ -105,7 +102,6 @@ class TopTenModel extends Model {
             return $result;
         }
         else { // run select without any WHERE clause if there is no title filter or genre filter
-            echo("<!-- none -->\n");
             $mysqli = parent::getDatabaseConnection();
             $result = $mysqli->query("SELECT sID, title, (ratingsSum / ratingsCount) AS avgRating FROM Story " .
                 "ORDER BY avgRating DESC, title ASC LIMIT 10");

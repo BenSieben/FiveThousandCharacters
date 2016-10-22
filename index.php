@@ -26,7 +26,6 @@ spl_autoload_register(function ($className) {
 $controller = new \cs174\hw3\controllers\Controller();
 $controller->processForms();
 
-// end the session for the user
-// TODO remove this line when testing sessions (and ready to release final product)
-//session_destroy();
+// end the session for the user (if uncommented) - useful for some debugging purposes
+// session_destroy();
 ?>

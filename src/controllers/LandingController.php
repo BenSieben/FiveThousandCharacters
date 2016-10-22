@@ -35,8 +35,8 @@ class LandingController extends Controller {
 
         // sanitize the phrase filter
         if(isset($_REQUEST['phraseFilter'])) {
-            // if there are special chars in phrase filter, take them out
-            $_REQUEST['phraseFilter'] = $txt = preg_replace('/[^a-zA-Z0-9]/', '', $_REQUEST['phraseFilter']);
+            // if there are characters in phrase filter besides those in the replace below, take them out
+            $_REQUEST['phraseFilter'] = preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['phraseFilter']);
         }
 
         // first data: phraseFilter
@@ -119,6 +119,8 @@ class LandingController extends Controller {
             }
         }
 
+        // convert phrase filter to HTML-safe before returning data
+        $data['phraseFilter'] = htmlspecialchars($data['phraseFilter']);
         return $data;
     }
 }

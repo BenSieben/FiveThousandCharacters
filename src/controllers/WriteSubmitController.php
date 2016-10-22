@@ -50,7 +50,12 @@ class WriteSubmitController extends Controller {
         //   WriteController needs to set up Write view after redirect if the
         //   $_REQUEST is set (after filtering and sanitizing the form data)
         if(isset($_REQUEST['writeIdentifier'])) {
-            //$_REQUEST['writeIdentifier'] = filter_input(INPUT_POST,'writeIdentifier', FILTER_SANITIZE_STRING);
+            // if there are characters in phrase filter besides those in the replace below, take them out
+            if(strcmp($_REQUEST['writeIdentifier'], preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeIdentifier'])) !== 0) {
+                $_REQUEST['writeIdentifier'] = preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeIdentifier']);
+                array_push($errorMessages, 'Error: illegal special characters detected in identifier. They have been removed');
+                $this->goodUserInput = false; // mark input as bad if input had rejected special characters
+            }
             if(strlen( $_REQUEST['writeIdentifier']) > Config::WS_MAX_IDENTIFIER_LENGTH) {
                 array_push($errorMessages, 'Error: identifier is too long. Max length is ' . Config::WS_MAX_IDENTIFIER_LENGTH);
                 $arguments .= "&wi=" . urlencode(substr( $_REQUEST['writeIdentifier'], 0, Config::WS_MAX_IDENTIFIER_LENGTH)); // wi = write identifier (truncated)
@@ -60,7 +65,12 @@ class WriteSubmitController extends Controller {
             }
         }
         if(isset($_REQUEST['writeTitle'])) {
-            //$_REQUEST['writeTitle'] = filter_input(INPUT_POST,'writeTitle', FILTER_SANITIZE_STRING);
+            // if there are characters in phrase filter besides those in the replace below, take them out
+            if(strcmp($_REQUEST['writeTitle'], preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeTitle'])) !== 0) {
+                $_REQUEST['writeTitle'] = preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeTitle']);
+                array_push($errorMessages, 'Error: illegal special characters detected in title. They have been removed');
+                $this->goodUserInput = false; // mark input as bad if input had rejected special characters
+            }
             if(strlen($_REQUEST['writeTitle']) > Config::WS_MAX_TITLE_LENGTH) {
                 array_push($errorMessages, 'Error: title is too long. Max length is ' . Config::WS_MAX_TITLE_LENGTH);
                 $arguments .= "&wt=" . urlencode(substr($_REQUEST['writeTitle'], 0, Config::WS_MAX_TITLE_LENGTH)); // wt = write title (truncated)
@@ -70,7 +80,12 @@ class WriteSubmitController extends Controller {
             }
         }
         if(isset($_REQUEST['writeAuthor'])) {
-            //$_REQUEST['writeAuthor'] = filter_input(INPUT_POST,'writeAuthor', FILTER_SANITIZE_STRING);
+            // if there are characters in phrase filter besides those in the replace below, take them out
+            if(strcmp($_REQUEST['writeAuthor'], preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeAuthor'])) !== 0) {
+                $_REQUEST['writeAuthor'] = preg_replace('/[^a-zA-Z0-9.\'\"~`!@#$^&\*()-=\+\|\]}\[{;:,?<> ]/', '', $_REQUEST['writeAuthor']);
+                array_push($errorMessages, 'Error: illegal special characters detected in author. They have been removed');
+                $this->goodUserInput = false; // mark input as bad if input had rejected special characters
+            }
             if(strlen($_REQUEST['writeAuthor']) > Config::WS_MAX_AUTHOR_LENGTH) {
                 array_push($errorMessages, 'Error: author is too long. Max length is ' . Config::WS_MAX_AUTHOR_LENGTH);
                 $arguments .= "&wa=" . urlencode(substr($_REQUEST['writeAuthor'], 0, Config::WS_MAX_AUTHOR_LENGTH)); // wa = write author (truncated)
@@ -84,8 +99,6 @@ class WriteSubmitController extends Controller {
             $arguments .= "&" . $writeGenresURLVersion; // wg = write genres
         }
         if(isset($_REQUEST['writeStory'])) {
-            // replace newlines with %0A
-            // $_REQUEST['writeStory'] = str_replace("\n", "%0A", filter_input(INPUT_POST,'writeStory', FILTER_SANITIZE_STRING));
             // replace return carriage with nothing
             $_REQUEST['writeStory'] = str_replace("\r", "", $_REQUEST['writeStory']);
             if(strlen($_REQUEST['writeStory']) > Config::WS_MAX_STORY_LENGTH) {
