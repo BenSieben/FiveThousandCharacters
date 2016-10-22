@@ -42,6 +42,8 @@ class ReadController extends Controller {
             return null; // return null if sID is not set, as that makes displaying the normal read page impossible
         }
 
+        $readStoryModel = new ReadStoryModel($_REQUEST['sID']);
+
         // check if the user just submitted their rating for this story
         //   and if so, we must add the rating to the database
         if(isset($_REQUEST['rating']) && !isset($_SESSION['sID'])) {
@@ -52,11 +54,10 @@ class ReadController extends Controller {
             if(!$addRatingRequest) {
                 unset($_SESSION[$_REQUEST['sID']]); // if adding the rating failed, unset $_SESSION[$_REQUEST['sID']]
             }
-            // nothing extra to do if adding the rating was successful
+            $result = $readStoryModel->editStory(); // try to read the story based on given sID (do not add view count since user just rated)
+        } else {
+            $result = $readStoryModel->readStory(); // try to read the story based on given sID (do add view count)
         }
-
-        $readStoryModel = new ReadStoryModel($_REQUEST['sID']);
-        $result = $readStoryModel->readStory(); // try to read the story based on given sID
 
         if(!$result) {
             return null; // return null if sID does not match any story in the database, as that makes displaying the normal read page impossible

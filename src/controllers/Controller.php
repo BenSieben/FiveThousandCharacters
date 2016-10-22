@@ -49,6 +49,15 @@ class Controller {
                         $wc->processForms();
                     }
                 }
+                else if(strcmp($_REQUEST['c'], 'WriteSubmitController') === 0) { // use WriteSubmitController
+                    $wsc = new WriteSubmitController();
+                    if(strcmp($_REQUEST['m'], 'processForms') === 0) { // use processForms method
+                        $wsc->processForms();
+                    }
+                    else { // if method name is not recognized, default to processForms
+                        $wsc->processForms();
+                    }
+                }
                 else { // if the controller name is not recognized, default to LandingController
                     header("Location:" . Config::URL_TO_INDEX . "?c=LandingController&m=processForms");
                 }

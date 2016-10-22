@@ -2,7 +2,6 @@
 namespace cs174\hw3\controllers;
 use cs174\hw3\models\GenreModel;
 use cs174\hw3\models\ReadStoryModel;
-use cs174\hw3\models\WriteStoryModel;
 use cs174\hw3\views\Write;
 
 /**
@@ -34,16 +33,11 @@ class WriteController extends Controller {
     private function setUpViewData() {
         $data = [];
 
-        // TODO sanitize form data
-
         // load up Config constants for max length of write something input fields to pass to the Write view
         $data['maxTitleLength'] = \Config::WS_MAX_TITLE_LENGTH;
         $data['maxAuthorLength'] = \Config::WS_MAX_AUTHOR_LENGTH;
         $data['maxIdentifierLength'] = \Config::WS_MAX_IDENTIFIER_LENGTH;
         $data['maxStoryLength'] = \Config::WS_MAX_STORY_LENGTH;
-
-        // update database with new story (if the requests are filled out)
-        $this->addStoryToDatabase();
 
         // genreList (array of all genres to list in the select drop down on the landing page)
         $genreModel = new GenreModel();
@@ -63,73 +57,48 @@ class WriteController extends Controller {
         }
 
         // check for data submitted to put it back in the forms again
-        if(isset($_REQUEST['writeTitle'])) { // check for title
-            $data['writeTitle'] = $_REQUEST['writeTitle'];
+        //   (they will be in session from WriteSubmitController)
+        if(isset($_SESSION['writeTitle'])) { // check for title
+            $data['writeTitle'] = $_SESSION['writeTitle'];
+            unset($_SESSION['writeTitle']); // unset because we do not want the session value to persist if user leaves write view
         }
         else {
             $data['writeTitle'] = '';
         }
 
-        if(isset($_REQUEST['writeAuthor'])) { // check for author
-            $data['writeAuthor'] = $_REQUEST['writeAuthor'];
+        if(isset($_SESSION['writeAuthor'])) { // check for author
+            $data['writeAuthor'] = $_SESSION['writeAuthor'];
+            unset($_SESSION['writeAuthor']); // unset because we do not want the session value to persist if user leaves write view
         }
         else {
             $data['writeAuthor'] = '';
         }
 
-        if(isset($_REQUEST['writeIdentifier'])) { // check for identifier
-            $data['writeIdentifier'] = $_REQUEST['writeIdentifier'];
+        if(isset($_SESSION['writeIdentifier'])) { // check for identifier
+            $data['writeIdentifier'] = $_SESSION['writeIdentifier'];
+            unset($_SESSION['writeIdentifier']); // unset because we do not want the session value to persist if user leaves write view
         }
         else {
             $data['writeIdentifier'] = '';
         }
 
-        if(isset($_REQUEST['writeGenres'])) { // check for genre(s)
-            $data['writeGenres'] = $_REQUEST['writeGenres'];
+        if(isset($_SESSION['writeGenres'])) { // check for genre(s)
+            $data['writeGenres'] = $_SESSION['writeGenres'];
+            unset($_SESSION['writeGenres']); // unset because we do not want the session value to persist if user leaves write view
         }
         else {
             $data['writeGenres'] = [];
         }
 
-        if(isset($_REQUEST['writeStory'])) { // check for story content
-            $data['writeStory'] = $_REQUEST['writeStory'];
+        if(isset($_SESSION['writeStory'])) { // check for story content
+            $data['writeStory'] = $_SESSION['writeStory'];
+            unset($_SESSION['writeStory']); // unset because we do not want the session value to persist if user leaves write view
         }
         else {
             $data['writeStory'] = '';
         }
 
         return $data;
-    }
-
-    /**
-     * Attempts to add the current write something content
-     * to the database, if all the information is filled out
-     */
-    private function addStoryToDatabase() {
-        if(isset($_REQUEST['writeIdentifier']) && strcmp($_REQUEST['writeIdentifier'], '') !== 0
-            && (!isset($_REQUEST['writeTitle']) || strcmp($_REQUEST['writeTitle'], '') !== 0)
-            && (!isset($_REQUEST['writeAuthor']) || strcmp($_REQUEST['writeAuthor'], '') !== 0)
-            && (!isset($_REQUEST['writeGenres']) || count($_REQUEST['writeGenres']) > 0)
-            && (!isset($_REQUEST['writeStory']) || strcmp($_REQUEST['writeStory'], '') !== 0)) {
-            // if all input fields have been filled out with something, then we will add the story to database
-            // first, the $_REQUEST['writeGenres'] must be converted back to genre IDs instead of genre names
-            //   so that we can add to the StoryGenres relation
-            $genreModel = new GenreModel();
-            $result = $genreModel->getGenreIDs($_REQUEST['writeGenres']);
-            if($result === false) {
-                echo("<!-- getting genre IDs from genre titles failed -->\n");
-                return false;
-            }
-            $genreIDs = []; // this array will hold all the genre IDs of the genre titles specified in $_REQUEST['writeGenres']
-            foreach($result as $row) {
-                array_push($genreIDs, $row['gID']); // push genre IDs in $result to $genreIDs array
-            }
-            // remove any carriage returns that might be in story content before saving
-            $_REQUEST['writeStory'] = str_replace("\r", "", $_REQUEST['writeStory']);
-            $writeStoryModel = new WriteStoryModel($_REQUEST['writeIdentifier'], $_REQUEST['writeTitle'],
-                $_REQUEST['writeAuthor'], $_REQUEST['writeStory'], $genreIDs);
-            return $writeStoryModel->addStory();
-        }
     }
 
     /**
@@ -140,12 +109,13 @@ class WriteController extends Controller {
      * false
      */
     private function checkForLoad() {
-        if(isset($_REQUEST['writeIdentifier']) && strcmp($_REQUEST['writeIdentifier'], '') !== 0
-            && (!isset($_REQUEST['writeTitle']) || strcmp($_REQUEST['writeTitle'], '') === 0)
-            && (!isset($_REQUEST['writeAuthor']) || strcmp($_REQUEST['writeAuthor'], '') === 0)
-            && (!isset($_REQUEST['writeGenres']) || count($_REQUEST['writeGenres']) === 0)
-            && (!isset($_REQUEST['writeStory']) || strcmp($_REQUEST['writeStory'], '') === 0)) {
-            $readStoryModel = new ReadStoryModel($_REQUEST['writeIdentifier']);
+        if(isset($_SESSION['writeIdentifier']) && strcmp($_SESSION['writeIdentifier'], '') !== 0
+            && (!isset($_SESSION['writeTitle']) || strcmp($_SESSION['writeTitle'], '') === 0)
+            && (!isset($_SESSION['writeAuthor']) || strcmp($_SESSION['writeAuthor'], '') === 0)
+            && (!isset($_SESSION['writeGenres']) || count($_SESSION['writeGenres']) === 0)
+            && (!isset($_SESSION['writeStory']) || strcmp($_SESSION['writeStory'], '') === 0)) {
+            $readStoryModel = new ReadStoryModel($_SESSION['writeIdentifier']);
+            unset($_SESSION['writeIdentifier']); // unset because we do not want the session value to persist if user leaves write view
             $result = $readStoryModel->editStory();
             if($result !== false) { // only load the story if the writeIdentifier is an actual story ID
                 foreach($result as $row) {

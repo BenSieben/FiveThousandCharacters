@@ -21,8 +21,8 @@ class Write extends View {
     <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="?c=LandingController&?m=processForms">Five Thousand Characters</a> - Write Something</h1>
-    <form name="writeForm" method="post" action="?c=WriteController&?m=processForms">
+    <h1><a href="?c=LandingController&m=processForms">Five Thousand Characters</a> - Write Something</h1>
+    <form name="writeForm" method="post" action="?c=WriteSubmitController&m=processForms">
         <label>Title</label>
         <br />
         <!-- Due to how the database is configured, if given data that passes max length specified in Config,

@@ -53,8 +53,8 @@ class RatingAdderModel extends Model {
 
     /**
      * Adds a rating to the database, with values dependent on the storyID and rating of this RatingAdderModel
-     * @return bool|\mysqli_result false if the story identifier / rating are invalid or the query failed, otherwise
-     * the value returned from querying the database successfully
+     * @return bool false if the story identifier / rating are invalid or the query failed, otherwise
+     * true
      */
     public function addStoryRating() {
         // check that storyID and rating are set and the correct data type
@@ -71,10 +71,13 @@ class RatingAdderModel extends Model {
         $statement->prepare("UPDATE Story SET ratingsSum = ratingsSum + ?, ratingsCount = ratingsCount + 1 WHERE sID = ?");
         $statement->bind_param("is", $this->rating, $this->storyID); // i = integer, s = string
         $statement->execute();
-        $result = $statement->get_result();
         $statement->close();
+        if($mysqli->errno !== 0) {
+            $mysqli->close();
+            return false;
+        }
         $mysqli->close();
-        return $result;
+        return true;
     }
 }
 ?>

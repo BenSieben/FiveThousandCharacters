@@ -28,5 +28,5 @@ $controller->processForms();
 
 // end the session for the user
 // TODO remove this line when testing sessions (and ready to release final product)
-session_destroy();
+//session_destroy();
 ?>

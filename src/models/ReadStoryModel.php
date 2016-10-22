@@ -63,7 +63,7 @@ class ReadStoryModel extends Model {
     /**
      * Retrieves the query result from selecting a story from the database based on the story ID of this ReadStoryModel
      * for reading (view count will go up)
-     * @return bool|\mysqli_result query result for retrieving the story from the database
+     * @return bool true if query worked, false if not
      */
     public function readStory() {
         // first retrieve the story contents just like editing requires

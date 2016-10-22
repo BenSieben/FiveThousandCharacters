@@ -20,7 +20,7 @@ class Read extends View {
     <link rel="stylesheet" type="text/css" href="src/styles/stylesheet.css" />
 </head>
 <body>
-    <h1><a href="?c=LandingController&?m=processForms">Five Thousand Characters</a> - <?= $data['title'] ?></h1>
+    <h1><a href="?c=LandingController&m=processForms">Five Thousand Characters</a> - <?= $data['title'] ?></h1>
     <div>
         <b>Author</b>: <?= $data['author'] ?>
         <br />
@@ -55,6 +55,9 @@ class Read extends View {
                     break;
                 case "5":
                     echo("1  2  3  4  <b>5</b>");
+                    break;
+                default: // if rating is unknown non-zero value, we can't bold any number
+                    echo("1  2  3  4  5");
                     break;
             }
         }

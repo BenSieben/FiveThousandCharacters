@@ -29,7 +29,7 @@ class Landing extends View {
 </head>
 <body>
     <h1>Five Thousand Characters</h1>
-    <h2><a href="?c=WriteController&?m=processForms">Write Something!</a></h2>
+    <h2><a href="?c=WriteController&m=processForms">Write Something!</a></h2>
     <h2>Check out what people are writing...</h2>
     <form name="filterForm" method="get">
         <input type="hidden" name="c" value="LandingController" />
