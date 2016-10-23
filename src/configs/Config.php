@@ -12,7 +12,7 @@
 class Config {
 
     //Constant for the full URL to where the index.php site is for Five Thousand Characters
-    const URL_TO_INDEX = "http://192.168.2.131/cs174/hw3/index.php";
+    const URL_TO_INDEX = "http://192.168.2.131/hw3/index.php";
 
     // Database connection constants
     const DB_HOST = "127.0.0.1"; // host for the database
