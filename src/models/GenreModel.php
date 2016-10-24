@@ -104,7 +104,7 @@ class GenreModel extends Model {
      */
     public function getGenreIDs($genreNames) {
         if(!isset($genreNames) || !is_array($genreNames)) {
-            echo("getGenreIDs failed: not give valid genreNames array");
+            echo("<!-- getGenreIDs failed: not give valid genreNames array -->\n");
             return false;
         }
         $db = parent::getDatabaseConnection();

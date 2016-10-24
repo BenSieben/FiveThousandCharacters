@@ -1,5 +1,6 @@
 <?php
 namespace cs174\hw3\controllers;
+use cs174\hw3\configs\Config;
 use cs174\hw3\models\RatingAdderModel;
 use cs174\hw3\models\ReadStoryModel;
 use cs174\hw3\views\Read;
@@ -33,8 +34,6 @@ class ReadController extends Controller {
     private function setUpViewData() {
         $data = [];
 
-        // TODO sanitize form data
-
         // we must query database for story information based off of the story ID which (should)
         //   be in the URL for any Read view as "?sID=<some story ID>"
         //   also, return null if the link is "bad" for any reason (no sID specified / bad sID specified)
@@ -43,6 +42,7 @@ class ReadController extends Controller {
         }
 
         $readStoryModel = new ReadStoryModel($_REQUEST['sID']);
+        $result = []; // this will keep track of whether or not we successfully loaded a story from the database
 
         // check if the user just submitted their rating for this story
         //   and if so, we must add the rating to the database
@@ -54,7 +54,11 @@ class ReadController extends Controller {
             if(!$addRatingRequest) {
                 unset($_SESSION[$_REQUEST['sID']]); // if adding the rating failed, unset $_SESSION[$_REQUEST['sID']]
             }
-            $result = $readStoryModel->editStory(); // try to read the story based on given sID (do not add view count since user just rated)
+            else {
+                // redirect to read page to prevent multiple votes by refreshing page after user submits their vote
+                header("Location:" . Config::URL_TO_INDEX . "?c=ReadController&m=processForms&sID=" . $_REQUEST['sID']);
+                exit();
+            }
         } else {
             $result = $readStoryModel->readStory(); // try to read the story based on given sID (do add view count)
         }

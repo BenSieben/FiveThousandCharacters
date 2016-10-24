@@ -1,6 +1,6 @@
 <?php
 namespace cs174\hw3\controllers;
-use Config;
+use cs174\hw3\configs\Config as Config;
 use cs174\hw3\models\GenreModel;
 use cs174\hw3\models\ReadStoryModel;
 use cs174\hw3\models\WriteStoryModel;

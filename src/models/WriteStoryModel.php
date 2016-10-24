@@ -148,7 +148,7 @@ class WriteStoryModel extends Model {
         $statement->execute();
         $statement->close();
         if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
-            echo("Error occurred while inserting new story into database.");
+            echo("<!-- Error occurred while inserting new story into database. -->\n");
             $mysqli->close();
             return false;
         }
@@ -161,7 +161,7 @@ class WriteStoryModel extends Model {
             }
             $result = $mysqli->query($query);
             if(!$result) {
-                echo("Error occurred while inserting new story id / genre id pairs into database.");
+                echo("<!-- Error occurred while inserting new story id / genre id pairs into database. -->\n");
                 $mysqli->close();
                 return false;
             }
@@ -190,7 +190,7 @@ class WriteStoryModel extends Model {
         $statement->execute();
         $statement->close();
         if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
-            echo("Error occurred while updating story database with new data.");
+            echo("<!-- Error occurred while updating story database with new data. -->\n");
             $mysqli->close();
             return false;
         }
@@ -202,7 +202,7 @@ class WriteStoryModel extends Model {
         $statement->execute();
         $statement->close();
         if($mysqli->errno !== 0) { // if mysqli error code is not 0, there was error
-            echo("Error occurred while clearing existing story-genre relations from the database.");
+            echo("<!-- Error occurred while clearing existing story-genre relations from the database. -->");
             $mysqli->close();
             return false;
         }
@@ -215,7 +215,7 @@ class WriteStoryModel extends Model {
             }
             $result = $mysqli->query($query);
             if(!$result) {
-                echo("Error occurred while inserting new story id / genre id pairs into database.");
+                echo("<!-- Error occurred while inserting new story id / genre id pairs into database. -->");
                 $mysqli->close();
                 return false;
             }

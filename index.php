@@ -1,9 +1,9 @@
 <?php
+namespace cs174\hw3;
 // start a new session for the user
 session_start();
 
 // import all the PHP classes for the website
-require_once("src/configs/Config.php"); // no namespace for Config.php, so autoload will not work for this class
 spl_autoload_register(function ($className) {
     // all files are in src folder, which makes it the prefix
     $prefix = 'src/';

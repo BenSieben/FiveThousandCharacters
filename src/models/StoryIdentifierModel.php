@@ -44,7 +44,7 @@ class StoryIdentifierModel extends Model {
      */
     public function getStoryID() {
         if(!isset($this->storyTitle) || !is_string($this->storyTitle)) {
-            echo("Error: to use StoryIdentifierModel you must be using a valid storyTitle field");
+            echo("<!-- Error: to use StoryIdentifierModel you must be using a valid storyTitle field -->\n");
             return false;
         }
         $mysqli = parent::getDatabaseConnection();

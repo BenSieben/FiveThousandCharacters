@@ -1,4 +1,5 @@
 <?php
+namespace cs174\hw3\configs;
 
 /**
  * Class Config

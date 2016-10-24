@@ -42,7 +42,7 @@ class ReadStoryModel extends Model {
      */
     public function editStory() {
         if(!isset($this->sID) || !is_string($this->sID)) {
-            echo("To use the ReadStoryModel, a String sID must be set. Please set a valid sID.");
+            echo("<!-- To use the ReadStoryModel, a String sID must be set. Please set a valid sID. -->\n");
             return false;
         }
         $mysqli = parent::getDatabaseConnection();
@@ -54,7 +54,7 @@ class ReadStoryModel extends Model {
         $statement->close();
         $mysqli->close();
         if(!$result) {
-            echo("Failed to retrieve story data from the database.");
+            echo("<!-- Failed to retrieve story data from the database. -->\n");
             return false;
         }
         return $result;
@@ -78,7 +78,7 @@ class ReadStoryModel extends Model {
         $statement->bind_param("s", $this->sID); // s = string
         $statement->execute();
         if($mysqli->affected_rows <= 0) { // this will check if we have updated at least one row (which should always happen in successful update)
-            echo("Error updating views for the specified story.");
+            echo("<!-- Error updating views for the specified story. -->\n");
             $statement->close();
             $mysqli->close();
             return false;

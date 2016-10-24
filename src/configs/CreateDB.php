@@ -1,5 +1,6 @@
 <?php
 require_once("Config.php");
+use \cs174\hw3\configs\Config as Config;
 
 /**
  * PHP script which utilizes the Config class

@@ -1,6 +1,6 @@
 <?php
 namespace cs174\hw3\models;
-use Config;
+use \cs174\hw3\configs\Config as Config;
 
 /**
  * Class Model

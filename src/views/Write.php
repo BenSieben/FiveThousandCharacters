@@ -1,6 +1,5 @@
 <?php
 namespace cs174\hw3\views;
-use Config;
 use cs174\hw3\views\helpers\SelectOptionHelper;
 use cs174\hw3\views\helpers\WriteErrorHelper;
 
